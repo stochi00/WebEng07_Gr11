@@ -1,0 +1,135 @@
+html{
+    height: 100%;
+}
+body {
+    margin:0px;
+    background: white; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(white, #D4D9E8); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(white, #D4D9E8); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(white, #D4D9E8); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(white, #D4D9E8); /* Standard syntax */
+    background-repeat: no-repeat;
+    height: 100%;
+
+}
+header {
+    width:100%;
+    background-color: #E86400;
+    height: 50px;
+
+    margin:0px;
+    padding:10px;
+}
+
+#headerImg {
+    width:50px;
+    float:left;
+    margin-right:10px;
+}
+#headerText{
+    width: auto;
+    height: 100%;
+}
+#headerText p{
+    font: normal bold 30px Arial;
+    color: #333333;
+    margin-top:10px;
+}
+section {
+    padding: 20px;
+
+}
+section > p{
+    font: normal bold 25px Arial;
+    color: #333333;
+    
+}
+input{
+    height:30px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    width:10px;
+    border: 2px solid #dadada;
+}
+input[type=submit]{
+    height: 50px;
+    background-color: #004F90;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border:none;
+    margin: 4px 2px;
+    cursor: pointer;
+
+    /*font: normal bold 25px Arial;*/
+
+}
+@media only screen and (max-width: 399px)
+{
+    input{
+        width:399px;
+    }
+
+    #submitButton{
+        text-align: left;
+    }
+}
+@media only screen and (min-width:400px){
+    #usernameLabel{
+        float:left;
+        width:49%;
+    }
+    #userName{
+        width:49%;
+    }
+    #passwordLabel{
+        float:left;
+        width:49%;
+    }
+    #password{
+        width:49%;
+    }
+    #submitButton{
+        text-align: center;
+    }
+    input{
+        width:49%;
+    }
+}
+@media only screen and (min-width:1200px){
+    section{
+        padding: 100px;
+    }
+    #usernameLabel{
+        float:left;
+        width:50%;
+    }
+    #userName{
+        width:49%;
+    }
+
+    #passwordLabel{
+        float:left;
+        width:50%;
+    }
+    #password{
+        width:49%;
+    }
+    #submitButton{
+        text-align: center;
+    }
+    input{
+        width:50%;
+    }
+
+}
+
+footer {
+    text-align: center;
+    bottom: 0;
+    position: fixed;
+    width:100%;
+}

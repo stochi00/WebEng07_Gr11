@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
+</head>
+<body>
+    <header>
+        <div id="headerImg">
+            <img src="images/big-logo-small.png" />
+        </div>
+        <div id="headerText">
+            <p>BIG Smart Home</p>
+        </div>
+    </header>
+    <section>
+        <p>Anmelden</p>
+        <form action="process.jsp" method="post">
+
+            <p id="usernameLabel">
+                <label for="userName">Benutzername</label>
+            </p>
+            <p id="usernameField">
+                <input type="text" id="userName" name="userName" />
+            </p>
+
+            <p id="passwordLabel">
+                <label for="password">Passwort</label>
+            </p>
+            <p  id="passwordField">
+                <input type="password" id="password" name="password" />
+            </p>
+
+            <p id="submitButton"><input class="button" type="submit" value="Anmelden" name="action" /></p>
+        </form>
+    </section>
+    <footer>
+        <p>© 2017 BIG Smart Home</p>
+    </footer>
+
+</body>
+</html>
