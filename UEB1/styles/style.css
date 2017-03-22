@@ -3,10 +3,10 @@
 
 html {
     height: 100%;
-    font-family: Arial;
-    color: #333333;
     width: 100%;
     overflow-y: scroll;
+    font-family: Arial;
+    color: #333333;
 }
 
 body {
@@ -17,44 +17,67 @@ body {
     background: -moz-linear-gradient(white, #D4D9E8); /* For Firefox 3.6 to 15 */
     background: linear-gradient(white, #D4D9E8); /* Standard syntax */
     background-repeat: no-repeat;
-    /*! height: 100%; */
-    /*! width: 100%; */
 }
 
 /* HEADER
 -------------------------------------------------------------------------------------------------------------------- */
 
 header {
-    /*! width:100%; */
     background: #FC7800; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(#FC7800, #CC4800); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(#FC7800, #CC4800); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(#FC7800, #CC4800); /* For Firefox 3.6 to 15 */
     background: linear-gradient(#FC7800, #CC4800); /* Standard syntax */
-    background-repeat: no-repeat;
     height: 52px;
-    /*! margin: 0px; */
-    padding: 12px 0px 12px 12px;
+    padding: 12px;
     box-shadow: 0px 1px 15px grey;
 }
 
 #headerImg {
     width: 50px;
     float: left;
-    margin-right: 10px;
+    margin-right: 12px;
 }
 
 #headerText {
-    width: auto;
-    height: 100%;
     float: left;
-    vertical-align: middle;
+    height: 100%;
 }
 
 #headerText h1 {
     font: normal bold 1.9em Arial;
     margin-top: 7px;
     letter-spacing: -0.01em;
+}
+
+/* NAVIGATION
+-------------------------------------------------------------------------------------------------------------------- */
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    float: right;
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    left: 0;
+    right: 0;
+}
+
+.dropdown-content button {
+    width: 180px;
+    float: right;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
 }
 
 /* LOGIN FORM
@@ -66,7 +89,6 @@ section {
 
 section > h1 {
     font-size: 1.41em;
-
     margin: 0px 0px 34px 0px;
 }
 
@@ -85,11 +107,10 @@ label {
     /*! height: 30px; */
     /*! vertical-align: middle; */
     font-size: 0.95em;
-
     letter-spacing: -0.01em;
 }
 
-input[type=submit] {
+input[type=submit], button {
     height: 47px;
     background: #006BAC; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(#006BAC, #003B7C); /* For Safari 5.1 to 6.0 */
@@ -105,7 +126,6 @@ input[type=submit] {
     border: solid #003B7C 1px;
     /*! margin: 0px 0px; */
     cursor: pointer;
-
     letter-spacing: -0.01em;
     font-size: 0.95em;
 }
@@ -118,61 +138,54 @@ input[type=submit] {
 -------------------------------------------------------------------------------------------------------------------- */
 
 .info {
-	/*! //background-color: red; */
-	max-width: 280px;
+    /*! //background-color: red; */
+    max-width: 280px;
 }
 
-.info .info_label{
-	font-weight: bold;
-	width: 50%;
-	float: left;
+.info .info_label {
+    font-weight: bold;
+    width: 50%;
+    float: left;
 }
 
-.info .info_value{
-	width: 48%;
-	text-align: right;
-	/*! display: block; */
-	float: right;
-	/*! margin: 7px 0px 0px 0px; */
+.info .info_value {
+    width: 48%;
+    text-align: right;
+    /*! display: block; */
+    float: right;
+    /*! margin: 7px 0px 0px 0px; */
 }
 
 .device {
-	width: 431px;
-	height: 180px;
-	
-	background: white;
-	
-	box-shadow: 0px 1px 15px grey;
-	
-	-webkit-border-radius: 5px;
+    width: 431px;
+    height: 180px;
+    background: white;
+    box-shadow: 0px 1px 15px grey;
+    -webkit-border-radius: 5px;
     border-radius: 5px;
-	position: relative;
-	float: left;
-	margin: 0px 20px 20px 0px;
+    position: relative;
+    float: left;
+    margin: 0px 20px 20px 0px;
 }
 
 .device .device_icon {
-	width: 206px;
-	height: 177px;
-	
-	background: #F5F7FA; /* For browsers that do not support gradients */
+    width: 206px;
+    height: 177px;
+    background: #F5F7FA; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(#F5F7FA, #EEF0F6); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(#F5F7FA, #EEF0F6); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(#F5F7FA, #EEF0F6); /* For Firefox 3.6 to 15 */
     background: linear-gradient(#F5F7FA, #EEF0F6); /* Standard syntax */
-	
-	-webkit-border-radius: 5px;
+    -webkit-border-radius: 5px;
     border-radius: 5px;
-	
-	position: relative;
-	float: left;
+    position: relative;
+    float: left;
 }
 
 .device .device_icon img {
-	width: 140px;
-	height: 140px;
-	
-	position: absolute;
+    width: 140px;
+    height: 140px;
+    position: absolute;
     margin: auto;
     top: 0;
     left: 0;
@@ -180,9 +193,7 @@ input[type=submit] {
     bottom: 0
 }
 
-
 .device .device_title {
-	
     padding: 9px 0px 0px 15px;
     float: left;
     margin: 0px;
@@ -191,7 +202,6 @@ input[type=submit] {
 }
 
 .device .device_type {
-	
     margin: 0px;
     /*! float: left; */
     padding: 0px 0px 0px 15px;
@@ -202,7 +212,6 @@ input[type=submit] {
 }
 
 .device .device_model {
-	
     margin: 0px;
     /*! float: left; */
     padding: 0px 0px 0px 15px;
@@ -212,19 +221,16 @@ input[type=submit] {
 }
 
 .device .menue_delete {
-	
     position: absolute;
     bottom: 4px;
     right: 9px;
 }
 
 .device .menue_edit {
-	
     position: absolute;
     bottom: 4px;
     right: 37px;
 }
-
 
 /* FOOTER
 -------------------------------------------------------------------------------------------------------------------- */
@@ -261,7 +267,6 @@ footer > p {
 }
 
 @media only screen and (min-width: 400px) {
-
     section > h1 {
         margin: 0px 0px 27px 0px;
     }
@@ -284,8 +289,6 @@ footer > p {
 }
 
 @media only screen and (min-width: 1200px) {
-    .
-    
     section > h1 {
         margin: 0px 0px 27px 0px;
     }
