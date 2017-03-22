@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="author" content="we-group11">
@@ -11,43 +11,49 @@
     <link rel="stylesheet" type="text/css" href="styles/style.css">
 </head>
 <body>
-    <header>
-        <div id="headerImg">
-            <img alt="" src="images/big-logo-small.png" />
-        </div>
-        <div id="headerText">
-            <h1>BIG Smart Home</h1>
-        </div>
-    </header>
+<header>
+    <div id="headerImg">
+        <img alt="" src="images/big-logo-small.png"/>
+    </div>
+    <div id="headerText">
+        <h1>BIG Smart Home</h1>
+    </div>
+</header>
 
-    <section>
-        <h1>
-            Passwort ändern
-        </h1>
-        <form action="process.jsp" method="post" autocomplete="off">
-            <p>
-                <label for="pwdOld">Altes Passwort</label>
-                <input id="pwdOld" name="pwdOld" type="password" placeholder="Altes Passwort" required>
-            </p>
+<section>
+    <h1>
+        Passwort ändern
+    </h1>
+    <form action="process.jsp" method="post" autocomplete="off">
+        <p>
+            <label for="pwdOld">Altes Passwort</label>
+            <input id="pwdOld" name="pwdOld" type="password" placeholder="Altes Passwort" required>
+        </p>
 
-            <p>
-                <label for="pwdNew">Neues Passwort</label>
-                <input id="pwdNew" name="pwdNew" type="password" placeholder="Neues Passwort" pattern="(?=^.{8,12}$)((?=.*\d+))(?![.\n])(?=.*[A-Z]+)(?=.*[a-z]+).*$" title="min. 8 bis max. 12 Zeichen, min. jeweils ein Klein- bzw. Großbuchstabe sowie min. eine Zahl" required>
-            </p>
-			
-			<p>
-                <label for="pwdNewRep">Passwort wiederholen</label>
-                <input id="pwdNewRep" name="pwdNewRep" type="password" placeholder="Neues Passwort wiederholen" pattern="(?=^.{8,12}$)((?=.*\d+))(?![.\n])(?=.*[A-Z]+)(?=.*[a-z]+).*$" title="min. 8 bis max. 12 Zeichen, min. jeweils ein Klein- bzw. Großbuchstabe sowie min. eine Zahl" required>
-            </p>
-			
-            <p id="submitButton">
-                <input class="button" value="Änderung speichern" name="action" type="submit">
-            </p>
-        </form>
-    </section>
+        <p>
+            <label for="pwdNew">Neues Passwort</label>
+            <input id="pwdNew" name="pwdNew" type="password" placeholder="Neues Passwort"
+                   pattern="(?=^.{8,12}$)((?=.*\d+))(?![.\n])(?=.*[A-Z]+)(?=.*[a-z]+).*$"
+                   title="min. 8 bis max. 12 Zeichen, min. jeweils ein Klein- bzw. Großbuchstabe sowie min. eine Zahl"
+                   required>
+        </p>
 
-    <footer>
-        <p>© 2017 BIG Smart Home</p>
-    </footer>
+        <p>
+            <label for="pwdNewRep">Passwort wiederholen</label>
+            <input id="pwdNewRep" name="pwdNewRep" type="password" placeholder="Neues Passwort wiederholen"
+                   pattern="(?=^.{8,12}$)((?=.*\d+))(?![.\n])(?=.*[A-Z]+)(?=.*[a-z]+).*$"
+                   title="min. 8 bis max. 12 Zeichen, min. jeweils ein Klein- bzw. Großbuchstabe sowie min. eine Zahl"
+                   required>
+        </p>
+
+        <p id="submitButton">
+            <input class="button" value="Änderung speichern" name="action" type="submit">
+        </p>
+    </form>
+</section>
+
+<footer>
+    <p>© 2017 BIG Smart Home</p>
+</footer>
 </body>
 </html>
