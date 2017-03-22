@@ -114,6 +114,105 @@ input[type=submit] {
     text-align: center;
 }
 
+/* OVERVIEW
+-------------------------------------------------------------------------------------------------------------------- */
+
+.info {
+	//background-color: red;
+}
+
+.info label{
+	font-style: bold;
+}
+
+.info a{
+	width: 100%;
+	text-align: right;
+}
+
+.device {
+	width: 431px;
+	height: 180px;
+	
+	background: white;
+	
+	box-shadow: 0px 1px 15px grey;
+	
+	-webkit-border-radius: 5px;
+    border-radius: 5px;
+	position: relative;
+	float: left;
+	margin: 0px 20px 20px 0px;
+}
+
+.device .device_icon {
+	width: 206px;
+	height: 177px;
+	
+	background: #F5F7FA; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#F5F7FA, #EEF0F6); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#F5F7FA, #EEF0F6); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#F5F7FA, #EEF0F6); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#F5F7FA, #EEF0F6); /* Standard syntax */
+	
+	-webkit-border-radius: 5px;
+    border-radius: 5px;
+	
+	position: relative;
+	float: left;
+}
+
+.device .device_icon img {
+	width: 140px;
+	height: 140px;
+	
+	position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0
+}
+
+
+.device .device_title {
+	
+    padding: 14px 0px 0px 17px;
+    float: left;
+    margin: 0px;
+    font: normal 1.1em Arial;
+}
+
+.device .device_type {
+	
+    margin: 0px;
+    float: left;
+    padding: 24px 0px 0px 17px;
+}
+
+.device .device_model {
+	
+    margin: 0px;
+    float: left;
+    padding: 0px 0px 0px 17px;
+    font: normal 0.9em Arial;
+}
+
+.device .menue_delete {
+	
+    position: absolute;
+    bottom: 4px;
+    right: 9px;
+}
+
+.device .menue_edit {
+	
+    position: absolute;
+    bottom: 4px;
+    right: 37px;
+}
+
+
 /* FOOTER
 -------------------------------------------------------------------------------------------------------------------- */
 
@@ -172,6 +271,8 @@ footer > p {
 }
 
 @media only screen and (min-width: 1200px) {
+    .
+    
     section > h1 {
         margin: 0px 0px 27px 0px;
     }
