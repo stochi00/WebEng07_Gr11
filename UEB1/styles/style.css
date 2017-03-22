@@ -118,16 +118,22 @@ input[type=submit] {
 -------------------------------------------------------------------------------------------------------------------- */
 
 .info {
-	//background-color: red;
+	/*! //background-color: red; */
+	max-width: 280px;
 }
 
-.info label{
-	font-style: bold;
+.info .info_label{
+	font-weight: bold;
+	width: 50%;
+	float: left;
 }
 
-.info a{
-	width: 100%;
+.info .info_value{
+	width: 48%;
 	text-align: right;
+	/*! display: block; */
+	float: right;
+	/*! margin: 7px 0px 0px 0px; */
 }
 
 .device {
@@ -177,25 +183,32 @@ input[type=submit] {
 
 .device .device_title {
 	
-    padding: 14px 0px 0px 17px;
+    padding: 9px 0px 0px 15px;
     float: left;
     margin: 0px;
-    font: normal 1.1em Arial;
+    font: normal 1.2em Arial;
+    width: 200px;
 }
 
 .device .device_type {
 	
     margin: 0px;
-    float: left;
-    padding: 24px 0px 0px 17px;
+    /*! float: left; */
+    padding: 0px 0px 0px 15px;
+    font: normal 1em Arial;
+    margin: 18px 0px 0px 0px;
+    display: inline-block;
+    width: 200px;
 }
 
 .device .device_model {
 	
     margin: 0px;
-    float: left;
-    padding: 0px 0px 0px 17px;
+    /*! float: left; */
+    padding: 0px 0px 0px 15px;
     font: normal 0.9em Arial;
+    display: inline-block;
+    width: 200px;
 }
 
 .device .menue_delete {
