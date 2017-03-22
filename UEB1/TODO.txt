@@ -1,0 +1,6 @@
+
+Wenn width kleiner als 204 (unser min-width) ist, zoomt das gesamte Bild hinaus!
+--> Passt aber vielleicht eh so...
+
+Footer überlappt andere Elemente bei zu geringer Höhe der Seite
+--> min height setzen?
