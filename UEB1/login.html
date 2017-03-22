@@ -16,7 +16,7 @@
             <img alt="" src="images/big-logo-small.png" />
         </div>
         <div id="headerText">
-            <p>BIG Smart Home</p>
+            <h1>BIG Smart Home</h1>
         </div>
     </header>
 
@@ -26,22 +26,17 @@
         </h1>
         <form action="process.jsp" method="post">
 
-            <p id="usernameLabel">
+            <p>
                 <label for="userName">Benutzername</label>
-            </p>
-            <p id="usernameField">
-                <input type="text" id="userName" name="userName" />
+                <input id="userName" name="userName" type="text">
             </p>
 
-            <p id="passwordLabel">
+            <p>
                 <label for="password">Passwort</label>
+                <input id="password" name="password" type="password">
             </p>
-            <p  id="passwordField">
-                <input type="password" id="password" name="password" />
-            </p>
-
             <p id="submitButton">
-                <input class="button" type="submit" value="Anmelden" name="action" />
+                <input class="button" value="Anmelden" name="action" type="submit">
             </p>
         </form>
     </section>
