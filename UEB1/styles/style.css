@@ -4,7 +4,7 @@
 html {
     min-height: 100%;
     width: 100%;
-    min-width: 360px;
+    min-width: 204px;
     overflow-y: scroll;
     font-family: Arial;
     color: #333333;
@@ -292,5 +292,26 @@ footer > p {
 @media only screen and (min-width: 1200px) {
     section {
         padding: 40px 100px 100px 100px;
+    }
+}
+
+@media only screen and (max-width: 599px) {
+
+}
+
+@media only screen and (min-width: 600px) {
+    .dropbtn {
+        display: none;
+    }
+
+    .dropdown-content {
+        display: block;
+        position: static;
+
+    }
+
+    .dropdown-content button {
+        margin-left: 7px;
+        width: 120px;
     }
 }
