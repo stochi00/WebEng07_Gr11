@@ -1,6 +1,10 @@
 html{
     height: 100%;
+    font-family: Arial;
+    color: #333333;
+    width: 100%;
 }
+
 body {
     margin:0px;
     background: white; /* For browsers that do not support gradients */
@@ -9,16 +13,23 @@ body {
     background: -moz-linear-gradient(white, #D4D9E8); /* For Firefox 3.6 to 15 */
     background: linear-gradient(white, #D4D9E8); /* Standard syntax */
     background-repeat: no-repeat;
-    height: 100%;
+    /*! height: 100%; */
 
+    /*! width: 100%; */
 }
-header {
-    width:100%;
-    background-color: #E86400;
-    height: 50px;
 
-    margin:0px;
-    padding:10px;
+header {
+    /*! width:100%; */
+    background: #FC7800; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#FC7800, #CC4800); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#FC7800, #CC4800); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#FC7800, #CC4800); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#FC7800, #CC4800); /* Standard syntax */
+    background-repeat: no-repeat;
+    height: 52px;
+    /*! margin: 0px; */
+    padding: 12px 0px 12px 12px;
+    box-shadow: 0px 1px 15px grey;
 }
 
 #headerImg {
@@ -26,110 +37,139 @@ header {
     float:left;
     margin-right:10px;
 }
+
 #headerText{
     width: auto;
     height: 100%;
+    float: left;
+    vertical-align: middle;
 }
-#headerText p{
-    font: normal bold 30px Arial;
-    color: #333333;
-    margin-top:10px;
-}
-section {
-    padding: 20px;
 
+#headerText h1{
+    font: normal bold 1.9em Arial;
+    margin-top:7px;
+    letter-spacing: -0.01em;
 }
-section > p{
-    font: normal bold 25px Arial;
-    color: #333333;
-    
+
+section {
+    padding: 40px 24px 24px 24px;
 }
+
+
+section > h1{
+    font-size: 1.41em;
+   
+    margin: 0px 0px 34px 0px;
+}
+
 input{
     height:30px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
     font-size: 16px;
-    width:10px;
-    border: 2px solid #dadada;
+    width:50%;
+    border: 1px solid #dadada;
 }
+
+label{
+    /*! height: 30px; */
+    /*! vertical-align: middle; */
+    font-size: 0.95em;
+    
+    letter-spacing: -0.01em;
+}
+
 input[type=submit]{
-    height: 50px;
-    background-color: #004F90;
+    height: 47px;
+    background: #006BAC; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#006BAC, #003B7C); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#006BAC, #003B7C); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#006BAC, #003B7C); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#006BAC, #003B7C); /* Standard syntax */
+    background-repeat: no-repeat;
     color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    border:none;
-    margin: 4px 2px;
+    /*! padding: 0px 0px; */
+    /*! text-align: center; */
+    /*! text-decoration: none; */
+    /*! display: inline-block; */
+    border: solid #003B7C 1px;
+    /*! margin: 0px 0px; */
     cursor: pointer;
 
-    /*font: normal bold 25px Arial;*/
-
+    letter-spacing: -0.01em;
+    font-size: 0.95em;
 }
+
+#submitButton {
+        text-align: center;
+}
+
 @media only screen and (max-width: 399px)
 {
-    input{
-        width:399px;
+    label {
+        width: 100%;
+        display: block;
+        margin: 24px 0px 12px 0px;
     }
-
-    #submitButton{
-        text-align: left;
+    
+    input{
+        width: 100%;
+    }
+    
+    input[type=text], input[type=password] {
+        width: 99%;
+        /*! margin-bottom: 0px; */
     }
 }
+
 @media only screen and (min-width:400px){
-    #usernameLabel{
-        float:left;
-        width:49%;
+    
+    section > h1 {
+       margin: 0px 0px 27px 0px;
     }
-    #userName{
-        width:49%;
+    
+    label {
+        width: 50%;
+        display: block;    
+        float: left;
+        margin: 7px 0px 0px 0px;
     }
-    #passwordLabel{
-        float:left;
-        width:49%;
+        
+    input[type=text], input[type=password] {
+        width: 48%;
+        /*! display: block; */
     }
-    #password{
-        width:49%;
-    }
-    #submitButton{
-        text-align: center;
-    }
-    input{
-        width:49%;
+    
+    input[type="submit"] {
+    /*! width: 50%; */
     }
 }
 @media only screen and (min-width:1200px){
+    section > h1 {
+       margin: 0px 0px 27px 0px;
+    }
+    
     section{
-        padding: 100px;
+        padding: 40px 100px 100px 100px;
     }
-    #usernameLabel{
-        float:left;
-        width:50%;
+    label {
+        width: 49%;
+        display: block;    
+        float: left;
     }
-    #userName{
-        width:49%;
-    }
-
-    #passwordLabel{
-        float:left;
-        width:50%;
-    }
-    #password{
-        width:49%;
-    }
-    #submitButton{
-        text-align: center;
-    }
+        
     input{
-        width:50%;
+        width: 49%;
     }
-
 }
 
-footer {
+footer>p {
     text-align: center;
     bottom: 0;
     position: fixed;
     width:100%;
+    letter-spacing: -0.01em;
+    font-size: 0.95em;
+    /*! padding-bottom: 0px; */
+    margin-bottom: 13px;
 }
