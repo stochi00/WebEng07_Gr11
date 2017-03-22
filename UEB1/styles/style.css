@@ -53,6 +53,11 @@ header {
 /* NAVIGATION
 -------------------------------------------------------------------------------------------------------------------- */
 
+nav button {
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
 .dropbtn {
     width: 47px;
     font-size: 1.1em;
