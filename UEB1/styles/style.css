@@ -160,6 +160,10 @@ input[type=submit], button {
     float: right;
 }
 
+section.elementgrid {
+    overflow: hidden;
+}
+
 .device {
     height: 180px;
     background: #F5F7FA; /* For browsers that do not support gradients */
@@ -170,6 +174,20 @@ input[type=submit], button {
     box-shadow: 0px 1px 15px grey;
     -webkit-border-radius: 5px;
     border-radius: 5px;
+    position: relative;
+    float: left;
+}
+
+.device_description {
+    height: 180px;
+    -webkit-border-bottom-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background: white;
+}
+
+.device .device_icon {
+    position: absolute;
+    height: 180px;
     position: relative;
     float: left;
 }
@@ -385,10 +403,7 @@ footer > p {
     }
 
     .device_description {
-
-
         margin-left: 176px;
-        /*width: 204px;*/
     }
 
     .device .device_icon {
@@ -426,23 +441,6 @@ footer > p {
 
 }
 
-section.elementgrid {
-    overflow: hidden;
-}
-
-.device_description {
-    height: 180px;
-    -webkit-border-bottom-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    background: white;
-}
-
-.device .device_icon {
-    position: absolute;
-    height: 180px;
-    position: relative;
-    float: left;
-}
 
 
 
