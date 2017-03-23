@@ -5,12 +5,12 @@
 Wenn width kleiner als 204 (unser min-width) ist, zoomt das gesamte Bild hinaus!
 --> Passt aber vielleicht eh so...
 
-Footer überlappt andere Elemente bei zu geringer Höhe der Seite
+Footer überlappt andere Elemente bei zu geringer Höhe der Seite.
 --> min height setzen?
 
-overview.html: ab 1200px steht der graue Trennstrich unten zu weit darüber
+overview.html: ab 768px steht der graue Trennstrich unten zu weit nach unten.
 
-overview.html: min-width: 400px wäre perfekt
+overview.html: min-width: 400px wäre perfekt.
 --> css müssten getrennt werden (wegen responsive queries)
 
 
