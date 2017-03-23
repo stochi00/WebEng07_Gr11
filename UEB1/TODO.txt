@@ -1,3 +1,6 @@
+// unbedingt Darstellung unter Deaktivierung von CSS testen!
+
+
 
 Wenn width kleiner als 204 (unser min-width) ist, zoomt das gesamte Bild hinaus!
 --> Passt aber vielleicht eh so...
