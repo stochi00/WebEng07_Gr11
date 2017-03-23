@@ -7,3 +7,7 @@ Wenn width kleiner als 204 (unser min-width) ist, zoomt das gesamte Bild hinaus!
 
 Footer überlappt andere Elemente bei zu geringer Höhe der Seite
 --> min height setzen?
+
+overview.html: ab 1200px steht der graue Trennstrich unten zu weit darüber
+
+

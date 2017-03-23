@@ -314,11 +314,12 @@ footer > p {
     }
 
     section.elementgrid {
+        padding: 0;
         display: inline-block;
         width: 850px;
         float: left;
         border-right: 1px solid #CCCCCC;
-        margin-left: 19px;
+        margin-left: 19px; /* TODO */
         margin-top: 40px;
     }
 
@@ -333,9 +334,9 @@ footer > p {
         margin: 0px 20px 20px 0px;
     }
 
-    .device.last-entry {
+    /*.device.last-entry {
         margin-bottom: 0 !important;
-    }
+    }*/
 
     .device .device_icon {
         width: 186px;
@@ -378,13 +379,15 @@ footer > p {
     }
 
     section.elementgrid {
+        padding: 0 10px 0 10px;
         display: block;
-        margin-left: 10px;
+        margin-left: 0px; /* TODO */
         margin-top: 25px;
     }
 
     .device {
-        width: 380px;
+        width: 100%;
+        min-width: 380px;
         margin: 0px 10px 20px 0px;
     }
 
@@ -422,9 +425,12 @@ footer > p {
     }
 }
 
+@media only screen and (max-width: 399px) {
+
+}
+
 section.elementgrid {
-    padding: 0;
-    margin-bottom: 20px;
+    overflow: hidden;
 }
 
 .device_description {
