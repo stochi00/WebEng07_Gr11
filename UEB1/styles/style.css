@@ -263,6 +263,11 @@ footer > p {
 }
 
 @media only screen and (max-width: 399px) {
+    #headerText h1 {
+        font: normal bold 1.7em Arial;
+        margin-top: 9px;
+    }
+
     label {
         width: 100%;
         margin: 24px 0px 12px 0px;
