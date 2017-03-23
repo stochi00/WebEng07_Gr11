@@ -90,11 +90,11 @@ nav button {
 /* LOGIN FORM
 -------------------------------------------------------------------------------------------------------------------- */
 
-section {
+section, aside {
     padding: 40px 24px 24px 24px;
 }
 
-section > h1 {
+section > h1, aside > h1 {
     font-size: 1.41em;
     margin: 0px 0px 34px 0px;
 }
@@ -111,8 +111,6 @@ input {
 }
 
 label {
-    /*! height: 30px; */
-    /*! vertical-align: middle; */
     font-size: 0.95em;
     letter-spacing: -0.01em;
     display: block;
@@ -127,12 +125,7 @@ input[type=submit], button {
     background: -moz-linear-gradient(#006BAC, #003B7C); /* For Firefox 3.6 to 15 */
     background: linear-gradient(#006BAC, #003B7C); /* Standard syntax */
     color: white;
-    /*! padding: 0px 0px; */
-    /*! text-align: center; */
-    /*! text-decoration: none; */
-    /*! display: inline-block; */
     border: solid #003B7C 1px;
-    /*! margin: 0px 0px; */
     cursor: pointer;
     letter-spacing: -0.01em;
     font-size: 0.95em;
@@ -146,7 +139,6 @@ input[type=submit], button {
 -------------------------------------------------------------------------------------------------------------------- */
 
 .info {
-    /*! //background-color: red; */
     max-width: 280px;
 }
 
@@ -159,9 +151,7 @@ input[type=submit], button {
 .info .info_value {
     width: 48%;
     text-align: right;
-    /*! display: block; */
     float: right;
-    /*! margin: 7px 0px 0px 0px; */
 }
 
 .device {
@@ -211,7 +201,6 @@ input[type=submit], button {
 
 .device .device_type {
     margin: 0px;
-    /*! float: left; */
     padding: 0px 0px 0px 15px;
     font: normal 1em Arial;
     margin: 18px 0px 0px 0px;
@@ -221,7 +210,6 @@ input[type=submit], button {
 
 .device .device_model {
     margin: 0px;
-    /*! float: left; */
     padding: 0px 0px 0px 15px;
     font: normal 0.9em Arial;
     display: inline-block;
