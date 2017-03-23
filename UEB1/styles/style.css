@@ -174,12 +174,6 @@ input[type=submit], button {
     float: left;
 }
 
-.device .device_icon {
-    height: 180px;
-    position: relative;
-    float: left;
-}
-
 .device .device_icon img {
     height: 140px;
     position: absolute;
@@ -191,25 +185,28 @@ input[type=submit], button {
 }
 
 .device .device_title {
+    display: block;
+    width: 100%;
     padding: 9px 0px 0px 15px;
-    float: left;
     margin: 0px;
     font: normal 1.2em Arial;
 }
 
 .device .device_type {
-    margin: 0px;
+    display: block;
+    width: 100%;
+    margin: 0;
     padding: 0px 0px 0px 15px;
     font: normal 1em Arial;
     margin: 18px 0px 0px 0px;
-    display: inline-block;
 }
 
 .device .device_model {
+    display: block;
+    width: 100%;
     margin: 0px;
     padding: 0px 0px 0px 15px;
     font: normal 0.9em Arial;
-    display: inline-block;
 }
 
 .device .menue_delete {
@@ -319,7 +316,7 @@ footer > p {
         width: 850px;
         float: left;
         border-right: 1px solid #CCCCCC;
-        margin-left: 19px; /* TODO */
+        padding-left: 19px;
         margin-top: 40px;
     }
 
@@ -337,7 +334,6 @@ footer > p {
     /*.device.last-entry {
         margin-bottom: 0 !important;
     }*/
-
     .device .device_icon {
         width: 186px;
     }
@@ -392,10 +388,14 @@ footer > p {
     }
 
     .device_description {
-        width: 204px;
+
+
+        margin-left: 176px;
+        /*width: 204px;*/
     }
 
     .device .device_icon {
+        position: absolute;
         width: 176px;
     }
 
@@ -434,16 +434,18 @@ section.elementgrid {
 }
 
 .device_description {
-    display: block;
-    float: left;
-
     height: 180px;
     -webkit-border-bottom-left-radius: 5px;
     border-bottom-left-radius: 5px;
     background: white;
 }
 
-
+.device .device_icon {
+    position: absolute;
+    height: 180px;
+    position: relative;
+    float: left;
+}
 
 
 
