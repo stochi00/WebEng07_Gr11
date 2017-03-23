@@ -457,6 +457,12 @@ footer > p {
 
     .device_description {
         margin-left: 176px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .device_title, .device_type, .device_model {
+        padding-left: 0px !important;
     }
 
     .device .device_icon {
