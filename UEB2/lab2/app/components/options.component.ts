@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 @Component({
   moduleId: module.id,
   selector: 'my-app',
-  templateUrl: '../views/details.html'
+  templateUrl: '../views/options.html'
 })
-export class DetailsComponent {
+export class OptionsComponent {
   name: string = "World";
 }
