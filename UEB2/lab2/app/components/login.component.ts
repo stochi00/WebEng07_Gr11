@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   templateUrl: '../views/login.html'
 })
 export class LoginComponent {
-  name: string = "World";
+  title: string = "Anmelden";
 }

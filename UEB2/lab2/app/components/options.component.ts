@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   templateUrl: '../views/options.html'
 })
 export class OptionsComponent {
-  name: string = "World";
+  title: string = "Optionen";
 }
