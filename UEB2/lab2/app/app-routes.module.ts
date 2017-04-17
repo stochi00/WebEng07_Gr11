@@ -10,7 +10,7 @@ const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'options', component: OptionsComponent},
     {path: 'overview', component: OverviewComponent},
-    {path: 'details', component:DetailsComponent},
+    {path: 'details', component: DetailsComponent},
 ];
 
 export const AppRoutesModule = RouterModule.forRoot(routes);
