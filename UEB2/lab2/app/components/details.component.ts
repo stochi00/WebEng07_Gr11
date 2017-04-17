@@ -3,8 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   moduleId: module.id,
   selector: 'my-app',
-  //template: '<body><h2>Hello {{name}}!</h2></body>'
-  templateUrl: '../views/login.html'
+  templateUrl: '../views/details.html'
 })
 export class AppComponent {
   name: string = "World";
