@@ -5,6 +5,10 @@ import {ChartsModule} from 'ng2-charts';
 
 import {AppComponent} from './components/app.component';
 import {AppRoutesModule} from "./app-routes.module";
+import {LoginComponent} from "./components/login.component";
+import {OptionsComponent} from "./components/options.component";
+import {OverviewComponent} from "./components/overview.component";
+import {DetailsComponent} from "./components/details.component";
 
 @NgModule({
     imports: [
@@ -15,6 +19,10 @@ import {AppRoutesModule} from "./app-routes.module";
     ],
     declarations: [
         AppComponent,
+        LoginComponent,
+        OptionsComponent,
+        OverviewComponent,
+        DetailsComponent
     ],
     providers: [],
     bootstrap: [AppComponent]

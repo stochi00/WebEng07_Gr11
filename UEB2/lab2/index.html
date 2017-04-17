@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="de" xml:lang="de">
 <head>
-  <base href="/"/>
+    <base href="/"/>
 
-  <meta charset="utf-8">
-  <title>BIG Smart Home - {{title}}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="styles/style.css">
+    <meta charset="utf-8">
+    <title>BIG Smart Home - {{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/style.css">
 
-  <script src="node_modules/core-js/client/shim.min.js"></script>
-  <script src="node_modules/zone.js/dist/zone.js"></script>
-  <script src="node_modules/systemjs/dist/system.src.js"></script>
-  <script src="node_modules/chart.js/dist/Chart.js"></script>
-  <script src="systemjs.config.js"></script>
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <script src="node_modules/chart.js/dist/Chart.js"></script>
+    <script src="systemjs.config.js"></script>
 
-  <script>
-    System.import('app').catch(function (err) {
-      console.error(err);
-    });
-  </script>
+    <script>
+        System.import('app').catch(function (err) {
+            console.error(err);
+        });
+    </script>
 </head>
-<my-app role="main">Loading...</my-app>
-<router-outlet>
+
+<my-app>Loading...</my-app>
+
 <script src="/scripts/jquery.js"></script>
 <script src="/scripts/animation.js"></script>
 <script src="/scripts/jquery.svg.js"></script>

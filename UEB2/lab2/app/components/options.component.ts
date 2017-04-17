@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
-  moduleId: module.id,
-  selector: 'my-app',
-  templateUrl: '../views/options.html'
+    moduleId: module.id,
+    selector: 'my-app',
+    templateUrl: '../views/options.html'
 })
 export class OptionsComponent {
-  title: string = "Optionen";
 }

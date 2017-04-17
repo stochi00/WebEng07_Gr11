@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
-  moduleId: module.id,
-  selector: 'my-app',
-  templateUrl: '../views/login.html'
+    moduleId: module.id,
+    selector: 'my-app',
+    template: '<router-outlet></router-outlet>'
 })
 export class AppComponent {
-  title: string = "Anmelden";
 }
