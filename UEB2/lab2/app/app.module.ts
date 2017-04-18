@@ -9,6 +9,7 @@ import {LoginComponent} from "./components/login.component";
 import {OptionsComponent} from "./components/options.component";
 import {OverviewComponent} from "./components/overview.component";
 import {DetailsComponent} from "./components/details.component";
+import {DeviceComponent} from "./components/device.component";
 
 import {DeviceService} from "./services/device.service";
 
@@ -24,7 +25,8 @@ import {DeviceService} from "./services/device.service";
         LoginComponent,
         OptionsComponent,
         OverviewComponent,
-        DetailsComponent
+        DetailsComponent,
+        DeviceComponent
     ],
     providers: [DeviceService],
     bootstrap: [AppComponent]
