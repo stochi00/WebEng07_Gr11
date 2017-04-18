@@ -10,6 +10,8 @@ import {OptionsComponent} from "./components/options.component";
 import {OverviewComponent} from "./components/overview.component";
 import {DetailsComponent} from "./components/details.component";
 
+import {DeviceService} from "./services/device.service";
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -24,8 +26,7 @@ import {DetailsComponent} from "./components/details.component";
         OverviewComponent,
         DetailsComponent
     ],
-    providers: [],
+    providers: [DeviceService],
     bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule {}
