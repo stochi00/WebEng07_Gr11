@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 
 @Component({
     moduleId: module.id,
-    selector: 'device-component',
+    selector: '[device-component]',
     templateUrl: '../views/device.html',
 })
 
@@ -19,7 +19,9 @@ export class DeviceComponent {
 
     public removeItem()
     {
-        this.deviceRemoved.emit(this.device);
+        if(!this.isEditable)
+            this.deviceRemoved.emit(this.device);
+        this.toggleEdit(false);
     }
 
     public editItem(value: string)
@@ -37,10 +39,12 @@ export class DeviceComponent {
     }
 
     public clickedElement(){
-        if(this.isEditable)
-            this.toggleEdit(false);
+        if(!this.isEditable)
+            this.router.navigate(['/details', this.device.id]);
+            /*this.toggleEdit(false);
         else
             this.router.navigate(['/details', this.device.id]);
+            */
     }
 
 }

@@ -59,7 +59,7 @@
     <h2 class="main-headline" id="devicesheadline">Geräte</h2>
     <div class="devices">
 
-      <device-component *ngFor="let device of devices" [device]="device" (deviceRemoved)="handleDeviceRemoved($event)"></device-component>
+      <div device-component *ngFor="let device of devices" [device]="device" (deviceRemoved)="handleDeviceRemoved($event)" class="device-outer" [attr.data-device-id]="device.id"></div>
 
     </div>
   </main>

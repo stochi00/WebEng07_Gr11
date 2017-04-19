@@ -1,4 +1,4 @@
-<div class="device-outer" [attr.data-device-id]="device.id">
+
   <a (click)="clickedElement()" class="device"
       title="{{ device.description }}">
     <dl class="device-properties">
@@ -20,5 +20,5 @@
     <li *ngIf="!isEditable"><a (click)="toggleEdit(false)"><img class="device-edit" src="../../images/edit.png" alt="edit device"></a></li>
     <li><a (click)="removeItem()"><img class="device-remove" src="../../images/remove.png" alt="remove device"></a></li>
   </ul>
-</div>
+
 
