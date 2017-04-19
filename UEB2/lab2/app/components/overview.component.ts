@@ -21,4 +21,14 @@ export class OverviewComponent {
         titleService.setTitle("BIG Smart Home - Geräte");
         //deviceService.getDevices().then(value => this.devices);
     }
+
+    handleDeviceRemoved(device: Device)
+    {
+        let index: number = this.devices.indexOf(device);
+        if (index !== -1) {
+            this.devices.splice(index, 1);
+        }
+
+        this.devices.slice()
+    }
 }

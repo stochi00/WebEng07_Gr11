@@ -5,7 +5,7 @@
 </div>
 
 <header aria-labelledby="bannerheadline">
-  <a href="overview.html"><img class="title-image" src="../../images/big-logo-small.png" alt="BIG Smart Home logo"></a>
+  <a [routerLink]="['/overview']"><img class="title-image" src="../../images/big-logo-small.png" alt="BIG Smart Home logo"></a>
 
   <h1 class="header-title" id="bannerheadline">
     BIG Smart Home
@@ -59,7 +59,7 @@
     <h2 class="main-headline" id="devicesheadline">Geräte</h2>
     <div class="devices">
 
-      <device-component *ngFor="let device of devices" [device]="device"></device-component>
+      <device-component *ngFor="let device of devices" [device]="device" (deviceRemoved)="handleDeviceRemoved($event)"></device-component>
 
     </div>
   </main>

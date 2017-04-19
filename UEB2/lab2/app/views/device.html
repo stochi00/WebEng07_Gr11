@@ -1,9 +1,10 @@
 <div class="device-outer" [attr.data-device-id]="device.id">
-  <a [routerLink]="['/details', device.id]" class="device"
+  <a (click)="clickedElement()" class="device"
       title="{{ device.description }}">
     <dl class="device-properties">
       <dt>Anzeigename</dt>
-        <dd class="device-displayname">{{device.display_name}}</dd>
+      <dd *ngIf="!isEditable" class="device-displayname">{{device.display_name}}</dd>
+      <dd *ngIf="isEditable" class="device-displayname"><input #box (keyup)="editItem(box.value)" (keyup.enter)="editItem(box.value); toggleEdit(true)" value="{{device.display_name}}"></dd>
       <dt>Gerätetyp</dt>
         <dd class="device-type">{{device.type}}</dd>
       <dt>Gerätename</dt>
@@ -15,8 +16,9 @@
       </div>
   </a>
   <ul class="device-actions">
-    <li><a href=""><img class="device-edit" src="../../images/edit.png" alt="edit device"></a></li>
-    <li><a href=""><img class="device-remove" src="../../images/remove.png" alt="remove device"></a></li>
+    <li *ngIf="isEditable"><a (click)="toggleEdit(true)"><img class="device-edit" src="../../images/ok.png" alt="save device"></a></li>
+    <li *ngIf="!isEditable"><a (click)="toggleEdit(false)"><img class="device-edit" src="../../images/edit.png" alt="edit device"></a></li>
+    <li><a (click)="removeItem()"><img class="device-remove" src="../../images/remove.png" alt="remove device"></a></li>
   </ul>
 </div>
 
