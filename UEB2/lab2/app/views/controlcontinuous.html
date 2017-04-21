@@ -1,0 +1,25 @@
+<!-- Steuerung für kontinuierliche Werte -->
+<div class="details-outer">
+    <div class="details-image-container">
+        <img class="details-image" src="../../images/placeholder_continuous.PNG">
+    </div>
+    <div class="details-data">
+        <label class="accessibility" for="details-log">Letzte Werteänderungen</label>
+        <textarea id="details-log" class="detail-logs" placeholder="Gerätelog" readonly rows="6">6.3.2017 10:01:30: 20 -> 25
+          </textarea>
+        <div class="details-settings">
+            <h3 class="details-headline">Temperatur einstellen</h3>
+
+            <form class="update-form" method="post">
+                <label class="update-form-field" id="current-value">
+                    <span class="current-value">derzeit: 0</span>
+                </label>
+                <label class="accessibility" for="new-value">Bitte gewünschten Wert eingeben.</label>
+                <input type="number" step="0.01" min="0" max="50" id="new-value" value="1"
+                       class="update-form-field form-input" name="new-value" required>
+                <input type="submit" id="submit-value" class="update-form-field button" name="submit-value"
+                       value="Wert setzen">
+            </form>
+        </div>
+    </div>
+</div>
