@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import {Component, Input, Output, EventEmitter } from '@angular/core';
 import {Device} from '../model/device';
 import {Router} from '@angular/router';
 
@@ -41,10 +41,6 @@ export class DeviceComponent {
     public clickedElement(){
         if(!this.isEditable)
             this.router.navigate(['/details', this.device.id]);
-            /*this.toggleEdit(false);
-        else
-            this.router.navigate(['/details', this.device.id]);
-            */
     }
 
 }

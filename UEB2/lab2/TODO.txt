@@ -1,7 +1,4 @@
 - Routing für den submit-button in login.html deaktivieren, wenn keine Eingabe getätigt wurde (HTML5 validierung)
   (kann evtl. auch über das (click) event gelöst werden - nicht perfekt, würde aber funktionieren)
 
-- overview page: Die geladenen Devices werden momentan direct aus dem DEVICE-Array gezogen, nicht über den service!!
-  (siehe Datentyp Promises. Wie soll ein Element gelöscht werden, wenn nur über den service zugegriffen wird?)
 - overview page: Das Editieren eines Titels soll beendet werden, wenn außerhalb des Input-Feldes (document.event) geklickt wurde.
-- overview page: Die einzelnen Device-Divs haben ihre fixe Größe verlorden. Auch wenn man auf editieren klickt, ändert sich die Breite. (BUG)

@@ -10,8 +10,10 @@ import {OptionsComponent} from "./components/options.component";
 import {OverviewComponent} from "./components/overview.component";
 import {DetailsComponent} from "./components/details.component";
 import {DeviceComponent} from "./components/device.component";
+import {StatusComponent} from "./components/status.component";
 
 import {DeviceService} from "./services/device.service";
+
 
 @NgModule({
     imports: [
@@ -26,7 +28,8 @@ import {DeviceService} from "./services/device.service";
         OptionsComponent,
         OverviewComponent,
         DetailsComponent,
-        DeviceComponent
+        DeviceComponent,
+        StatusComponent
     ],
     providers: [DeviceService],
     bootstrap: [AppComponent]

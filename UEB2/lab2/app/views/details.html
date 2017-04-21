@@ -5,7 +5,7 @@
 </div>
 
 <header aria-labelledby="bannerheadline">
-  <a href="overview.html"><img class="title-image" src="../../images/big-logo-small.png" alt="BIG Smart Home logo"></a>
+  <a [routerLink]="['/overview']"><img class="title-image" src="../../images/big-logo-small.png" alt="BIG Smart Home logo"></a>
 
   <h1 class="header-title" id="bannerheadline">
     BIG Smart Home
@@ -32,33 +32,11 @@
 <div class="main-container">
 
   <aside class="sidebar" aria-labelledby="serverinfoheadline">
-    <div class="server-info-container">
-      <h2 class="accessibility" id="serverinfoheadline">Serverstatus</h2>
-      <dl class="server-data properties">
-        <dt class="accessibility">Serverstatus:</dt>
-        <dd class="server-status">Serverstatus:</dd>
-        <dt>Benutzer</dt>
-        <dd>
-          <span class="system-start-time">Administrator</span>
-        </dd>
-        <dt>Systemstartzeit</dt>
-        <dd>
-          <span class="system-start-time">10:00</span>
-        </dd>
-        <dt>Systemstartdatum</dt>
-        <dd>
-          <span class="system-start-datum">06.03.2017</span>
-        </dd>
-        <dt>Fehlgeschlagene Logins</dt>
-        <dd>
-          <span class="failed-logins">3</span>
-        </dd>
-      </dl>
-    </div>
+    <status-component></status-component>
   </aside>
   <main aria-labelledby="deviceheadline" class="details-container">
     <div attr.data-device-id="19ff7d47-bd80-4a5d-adfb-bc77558facad" class="details-headline">
-      <h2 class="main-headline" id="deviceheadline">Heizkörper Badezimmer</h2>
+      <h2 *ngIf="device" class="main-headline" id="deviceheadline">{{ device.display_name}}</h2>
     </div>
     <div class="details-holder">
 

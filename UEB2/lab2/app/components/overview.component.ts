@@ -2,8 +2,7 @@ import {Component} from '@angular/core';
 import {Title}     from '@angular/platform-browser';
 import {DeviceService} from "../services/device.service";
 import {Device} from "../model/device";
-import {DEVICES} from "../resources/mock-devices";
-import {DeviceComponent} from "./device.component";
+import {StatusComponent} from './status.component';
 
 @Component({
     moduleId: module.id,
@@ -11,15 +10,14 @@ import {DeviceComponent} from "./device.component";
     templateUrl: '../views/overview.html'
 })
 
+export class OverviewComponent{
 
+    devices: Device[] = null;
 
-export class OverviewComponent {
-
-    devices: Device[] = DEVICES;
 
     public constructor(private titleService: Title, deviceService: DeviceService) {
         titleService.setTitle("BIG Smart Home - Geräte");
-        //deviceService.getDevices().then(value => this.devices);
+        deviceService.getDevices().then(value => this.devices = value).catch(reason => {});
     }
 
     handleDeviceRemoved(device: Device)
@@ -28,7 +26,7 @@ export class OverviewComponent {
         if (index !== -1) {
             this.devices.splice(index, 1);
         }
-
         this.devices.slice()
     }
+
 }
