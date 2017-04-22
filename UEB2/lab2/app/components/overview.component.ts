@@ -27,5 +27,4 @@ export class OverviewComponent{
         }
         this.devices.slice()
     }
-
 }

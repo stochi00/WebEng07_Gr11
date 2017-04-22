@@ -1,4 +1,0 @@
-- Routing für den submit-button in login.html deaktivieren, wenn keine Eingabe getätigt wurde (HTML5 validierung)
-  (kann evtl. auch über das (click) event gelöst werden - nicht perfekt, würde aber funktionieren)
-
-- overview page: Das Editieren eines Titels soll beendet werden, wenn außerhalb des Input-Feldes (document.event) geklickt wurde.
