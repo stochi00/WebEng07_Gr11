@@ -7,6 +7,8 @@ import { Title }     from '@angular/platform-browser';
     templateUrl: '../views/login.html'
 })
 export class LoginComponent {
+    nav_acc_href_id = "#formheadline";
+
     public constructor(private titleService: Title ) {
         titleService.setTitle("BIG Smart Home - Login");
     }

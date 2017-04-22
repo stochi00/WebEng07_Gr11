@@ -7,6 +7,8 @@ import { Title }     from '@angular/platform-browser';
     templateUrl: '../views/options.html'
 })
 export class OptionsComponent {
+    nav_acc_href_id = "#formheadline";
+
     public constructor(private titleService: Title ) {
         titleService.setTitle("BIG Smart Home - Optionen");
     }

@@ -13,6 +13,7 @@ import {ControlType} from '../model/controlType';
     templateUrl: '../views/details.html'
 })
 export class DetailsComponent {
+    nav_acc_href_id = "#deviceheadline";
     id: string;
     device: Device = null;
 
