@@ -12,6 +12,7 @@ import {DetailsComponent} from "./components/details.component";
 import {DeviceComponent} from "./components/device.component";
 import {StatusComponent} from "./components/status.component";
 import {FooterComponent} from "./components/footer.component";
+import {NavigationAccessibilityComponent} from "./components/navigation-accessbility.component";
 
 import {DeviceService} from "./services/device.service";
 
@@ -31,7 +32,8 @@ import {DeviceService} from "./services/device.service";
         DetailsComponent,
         DeviceComponent,
         StatusComponent,
-        FooterComponent
+        FooterComponent,
+        NavigationAccessibilityComponent
     ],
     providers: [DeviceService],
     bootstrap: [AppComponent]

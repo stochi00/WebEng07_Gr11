@@ -11,9 +11,8 @@ import {StatusComponent} from './status.component';
 })
 
 export class OverviewComponent{
-
+    nav_acc_href_id = "#devicesheadline";
     devices: Device[] = null;
-
 
     public constructor(private titleService: Title, deviceService: DeviceService) {
         titleService.setTitle("BIG Smart Home - Geräte");

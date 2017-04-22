@@ -11,6 +11,7 @@ import {StatusComponent} from './status.component';
     templateUrl: '../views/details.html'
 })
 export class DetailsComponent {
+    nav_acc_href_id = "#deviceheadline";
     id: string;
     device: Device = null;
 
