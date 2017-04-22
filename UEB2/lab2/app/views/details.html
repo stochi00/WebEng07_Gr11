@@ -5,7 +5,7 @@
 </div>
 
 <header aria-labelledby="bannerheadline">
-  <a [routerLink]="['/overview']"><img class="title-image" src="../../images/big-logo-small.png" alt="BIG Smart Home logo"></a>
+  <a routerLink="/overview"><img class="title-image" src="../../images/big-logo-small.png" alt="BIG Smart Home logo"></a>
 
   <h1 class="header-title" id="bannerheadline">
     BIG Smart Home
@@ -39,14 +39,13 @@
       <h2  class="main-headline" id="deviceheadline">{{ device.display_name}}</h2>
     </div>
     <div class="details-holder">
-      <control-boolean  *ngFor="let unit of controls_boolean"></control-boolean>
-      <control-continuous *ngFor="let unit of controls_continuous"></control-continuous>
-      <control-enum *ngFor="let unit of controls_enum"></control-enum>
+      <control-boolean  *ngFor="let unit of controls_boolean" [controlunit]="unit" ></control-boolean>
+      <control-continuous *ngFor="let unit of controls_continuous" [controlunit]="unit"></control-continuous>
+      <control-enum *ngFor="let unit of controls_enum" [controlunit]="unit"></control-enum>
     </div>
 
   </main>
 </div>
-<footer>
-  © 2017 BIG Smart Home
-</footer>
+<footer-component>
+</footer-component>
 </body>

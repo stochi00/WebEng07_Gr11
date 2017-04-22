@@ -1,4 +1,4 @@
-<body data-decimal-separator="," data-grouping-separator=".">
+<body ng-controller="FormController" data-decimal-separator="," data-grouping-separator=".">
 
 <div role="navigation" aria-label="jumplinks">
   <a href="#formheadline" class="accessibility">Zum Inhalt springen</a>
@@ -19,38 +19,32 @@
 </header>
 <div class="main-container">
   <main aria-labelledby="formheadline">
-    <form class="form" method="post" action="/overview"  name="loginform" >
+    <form class="form" action="/overview" name="loginform"  #loginForm="ngForm">
       <h2 id="formheadline" class="registration-headline">Anmelden</h2>
       <div class="form-row">
         <label class="form-label" for="username-input">
           Benutzername
         </label>
-        <input type="text" name="username" id="username-input" required class="form-input">
-        <div *ngIf="username.errors && (username.dirty || username.touched)"
-             class="alert alert-danger">
-          <div [hidden]="!username.errors.required">
-            Name is required
-          </div>
-        </div>
+        <input type="text" name="username"  required [(ngModel)]="username" id="username-input"  class="form-input">
+
         <span id="username-error" class="error-text"></span>
       </div>
       <div class="form-row">
         <label class="form-label" for="password-input">
           Passwort
         </label>
-        <input type="password" name="password" id="password-input" required class="form-input" minlength="4"
+        <input type="password" name="password" [(ngModel)]="pass" id="password-input" required class="form-input" minlength="4"
                maxlength="12">
         <span id="password-error" class="error-text"></span>
       </div>
       <div class="form-row form-row-center">
-        <button class="button button-submit" routerLink="/overview"> <!-- TODO: check input... -->
+        <button class="button button-submit" routerLink="/overview" [disabled]="!loginForm.form.valid" >
           Anmelden
         </button>
       </div>
     </form>
   </main>
 </div>
-<footer>
-  © 2017 BIG Smart Home
-</footer>
+<footer-component>
+</footer-component>
 </body>

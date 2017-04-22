@@ -1,24 +1,26 @@
 <!-- Steuerung für boolesche Werte -->
 <div class="details-outer">
     <div class="details-image-container">
-        <img class="details-image" src="../../images/placeholder_boolean.PNG">
+        <canvas baseChart class="details-image"
+                [data]="charData"
+                [labels]="chartLabels"
+                [chartType]="chartType" >
+        </canvas>
     </div>
     <div class="details-data">
         <label class="accessibility" for="details-log">Letzte Werteänderungen</label>
-        <textarea id="details-log" class="detail-logs" placeholder="Gerätelog" readonly rows="6">6.3.2017 10:03:30: Aus -> An</textarea>
+        <textarea id="details-log" class="detail-logs" placeholder="Gerätelog" readonly rows="6">{{ logToString() }}</textarea>
         <div class="details-settings">
-            <h3 class="details-headline">Ein-/Ausschalten</h3>
+            <h3 class="details-headline">{{ controlunit.name}}</h3>
 
             <form class="update-form" method="post">
-
                 <label class="update-form-field" id="current-value">
-                    <span class="current-value">derzeit: Aktiviert</span>
+                    <span class="current-value">derzeit: {{(controlunit.current?"An":"Aus")}}</span>
                 </label>
-
                 <label class="accessibility" for="new-value">Bitte gewünschten Wert auswählen.</label>
-                <input type="checkbox" id="new-value" class="update-checkbox-input form-input" checked
+                <input #inputvalue type="checkbox" id="new-value" class="update-checkbox-input form-input" checked
                        name="new-value">
-                <input type="submit" id="submit-value" class="update-form-field button" name="submit-value"
+                <input (click)="setValue(inputvalue.checked)" type="submit" id="submit-value" class="update-form-field button" name="submit-value"
                        value="Wert setzen">
             </form>
         </div>

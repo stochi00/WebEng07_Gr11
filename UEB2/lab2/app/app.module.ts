@@ -11,6 +11,7 @@ import {OverviewComponent} from "./components/overview.component";
 import {DetailsComponent} from "./components/details.component";
 import {DeviceComponent} from "./components/device.component";
 import {StatusComponent} from "./components/status.component";
+import {FooterComponent} from "./components/footer.component";
 import {ControlBoolean} from "./components/control.boolean.component";
 import {ControlEnum} from "./components/control.enum.component";
 import {ControlContinuous} from "./components/control.continuous.component";
@@ -32,10 +33,11 @@ import {DeviceService} from "./services/device.service";
         OverviewComponent,
         DetailsComponent,
         DeviceComponent,
-        StatusComponent,
+        FooterComponent,
         ControlBoolean,
         ControlEnum,
-        ControlContinuous
+        ControlContinuous,
+        StatusComponent
     ],
     providers: [DeviceService],
     bootstrap: [AppComponent]
