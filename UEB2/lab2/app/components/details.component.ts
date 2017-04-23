@@ -3,7 +3,6 @@ import {Title}     from '@angular/platform-browser';
 import {DeviceService} from "../services/device.service";
 import {Device} from '../model/device';
 import {ActivatedRoute} from '@angular/router';
-import {StatusComponent} from './status.component';
 import {ControlUnit} from '../model/controlUnit';
 import {ControlType} from '../model/controlType';
 
@@ -21,7 +20,6 @@ export class DetailsComponent {
     controls_enum: ControlUnit[] = null;
     controls_continuous: ControlUnit[] = null;
 
-
     public constructor(private route: ActivatedRoute, private titleService: Title, deviceService: DeviceService) {
         titleService.setTitle("BIG Smart Home - Details");
         this.id = this.route.snapshot.params['id'];
@@ -31,9 +29,5 @@ export class DetailsComponent {
             this.controls_enum = this.device.control_units.filter((valuee, index, array) => valuee.type == ControlType.enum);
             this.controls_continuous = this.device.control_units.filter((valuec, index, array) => valuec.type == ControlType.continuous);
         }).catch(reason => {});
-
-
-
     }
 }
-

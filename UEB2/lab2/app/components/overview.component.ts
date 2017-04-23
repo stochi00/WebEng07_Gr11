@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {Title}     from '@angular/platform-browser';
 import {DeviceService} from "../services/device.service";
 import {Device} from "../model/device";
-import {StatusComponent} from './status.component';
 
 @Component({
     moduleId: module.id,

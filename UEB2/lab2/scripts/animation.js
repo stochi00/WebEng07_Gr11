@@ -11,7 +11,6 @@
  Rufen Sie dazu mit draw_image(id, src, min, max, current, values) die zugrunde liegende und hier definierte Funktione auf.
  */
 
-
 function drawThermometer(id, src, min, max, current, values) {
 
     var svg = $('#'+id).svg({loadURL: src});
@@ -24,7 +23,6 @@ function drawThermometer(id, src, min, max, current, values) {
    */
 }
 
-
 function drawBulb(id, src, min, max, current, values) {
 
     $('#'+id).svg({loadURL: src});
@@ -32,6 +30,14 @@ function drawBulb(id, src, min, max, current, values) {
 
     console.log("drawBulb");
   // TODO
+
+
+
+    $('#' + id).svg('get'); //Erstellt ein leeres SVG Element
+    $('#' + id).load(src); //Lädt das Bild
+    // TODO svg laden...
+
+    // get img with id: device.id
 }
 
 function drawCam(id, src, min, max, current, values) {
