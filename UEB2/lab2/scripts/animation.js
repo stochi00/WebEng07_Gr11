@@ -11,7 +11,6 @@
  Rufen Sie dazu mit draw_image(id, src, min, max, current, values) die zugrunde liegende und hier definierte Funktione auf.
  */
 
-
 function drawThermometer(id, src, min, max, current, values) {
   /* TODO
    Passen Sie die Höhe des Temperaturstandes entsprechend dem aktuellen Wert an.
@@ -19,9 +18,16 @@ function drawThermometer(id, src, min, max, current, values) {
    */
 }
 
-
 function drawBulb(id, src, min, max, current, values) {
   // TODO
+
+
+
+    $('#' + id).svg('get'); //Erstellt ein leeres SVG Element
+    $('#' + id).load(src); //Lädt das Bild
+    // TODO svg laden...
+
+    // get img with id: device.id
 }
 
 function drawCam(id, src, min, max, current, values) {
