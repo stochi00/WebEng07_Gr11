@@ -16,11 +16,9 @@ function drawThermometer(id, src, min, max, current, values) {
     $('#'+id).svg({loadURL: src, onLoad: function(svg, error) {
         var svg2 = $('#'+id).svg();
 
-        if (current == 1) {
-            svg2.find("g path:first-child()").attr('fill', "yellow");
-        } else {
-            svg2.find("g path:first-child()").attr('fill', "black");
-        }
+       // svg2.find("#title3855").text(current);
+        svg2.find("#tspan3817").text(min);
+        svg2.find("#tspan3817-6").text(max);
 
     }});
   /* TODO
@@ -44,10 +42,13 @@ function drawBulb(id, src, min, max, current, values) {
 
 function drawCam(id, src, min, max, current, values) {
 
-    $('#'+id).svg({loadURL: src});
+    $('#'+id).svg({loadURL: src, onLoad: function(svg, error) {
+        var svg2 = $('#'+id).svg();
 
+        svg2.find("#circle8").attr('fill', "black");
+        svg2.find("#path10").attr('fill', "white");
 
-    console.log("drawCam");
+    }});
   /* TODO
     Verändern Sie die Darstellung der Webcam entsprechend den Vorgaben aus der Angabe.
     Dabei soll jedoch nicht nur einfach die Farbe der Elemente verändert werden, sondern es soll eine Kopie der zu verändernden Elemente erstellt
