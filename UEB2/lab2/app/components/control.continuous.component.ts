@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, AfterViewInit} from '@angular/core';
 import {ControlUnit} from "../model/controlUnit";
 import {DatePipe} from "@angular/common";
 
@@ -16,10 +16,14 @@ export class ControlContinuous{
     charData:number[] = [];
     chartType:string = 'line';
 
+    ngAfterViewInit() {
+        this.charData = new Array(this.controlunit.values.length);
+    }
 
     setValue(value: number){
         this.log.push(new LogEntry(this.controlunit.current, value));
         this.controlunit.current=value;
+
 
         this.charData.push(value);
         this.charData = this.charData.slice();

@@ -16,6 +16,7 @@ function drawThermometer(id, src, min, max, current, values) {
     $('#'+id).svg({loadURL: src, onLoad: function(svg, error) {
         var svg2 = $('#'+id).svg();
 
+        svg2.find("#rect69").attr('fill', "yellow");
        // svg2.find("#title3855").text(current);
         svg2.find("#tspan3817").text(min);
         svg2.find("#tspan3817-6").text(max);

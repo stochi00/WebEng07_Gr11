@@ -18,6 +18,7 @@ export class ControlEnum{
 
     OnInit() {
         this.chartLabels = this.controlunit.values;
+        this.charData = new Array(this.controlunit.values.length);
     }
 
     setValue(value: number){
