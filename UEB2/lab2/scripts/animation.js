@@ -13,6 +13,11 @@
 
 
 function drawThermometer(id, src, min, max, current, values) {
+
+    var svg = $('#'+id).svg({loadURL: src});
+
+
+
   /* TODO
    Passen Sie die Höhe des Temperaturstandes entsprechend dem aktuellen Wert an.
    Beachten Sie weiters, dass auch die Beschriftung des Thermometers (max, min Temperatur) angepasst werden soll.
@@ -21,10 +26,20 @@ function drawThermometer(id, src, min, max, current, values) {
 
 
 function drawBulb(id, src, min, max, current, values) {
+
+    $('#'+id).svg({loadURL: src});
+
+
+    console.log("drawBulb");
   // TODO
 }
 
 function drawCam(id, src, min, max, current, values) {
+
+    $('#'+id).svg({loadURL: src});
+
+
+    console.log("drawCam");
   /* TODO
     Verändern Sie die Darstellung der Webcam entsprechend den Vorgaben aus der Angabe.
     Dabei soll jedoch nicht nur einfach die Farbe der Elemente verändert werden, sondern es soll eine Kopie der zu verändernden Elemente erstellt
@@ -33,5 +48,9 @@ function drawCam(id, src, min, max, current, values) {
 }
 
 function drawShutter(id, src, min, max, current, values) {
+
+    $('#'+id).svg({loadURL: src});
+
+    console.log("drawShutter");
   // TODO
 }
