@@ -117,7 +117,7 @@ export var DEVICES: Device[] = [
     }]
   }
   ,
-]
+];
 
 
 

@@ -2,6 +2,8 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {Device} from '../model/device';
 import {Router} from '@angular/router';
 
+import '../../scripts/animation.js';
+
 @Component({
     moduleId: module.id,
     selector: '[device-component]',
@@ -18,7 +20,11 @@ export class DeviceComponent {
     public isEditable: boolean = false;
     public temp_name: string;
 
-    constructor(private router: Router) {
+    public constructor(private router: Router) {
+    }
+
+    ngOnInit() {
+        this.device.draw_image(this.device.id, this.device.image, (this.device.control_units as any).min, (this.device.control_units as any).max, (this.device.control_units as any).current, (this.device.control_units as any).values);
     }
 
     public removeItem() {
@@ -41,7 +47,7 @@ export class DeviceComponent {
         if (clickedComponent.className == "device-edit") {
             return;
         }
-        
+
         this.isEditable = false;
     }
 
