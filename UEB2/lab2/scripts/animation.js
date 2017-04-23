@@ -13,8 +13,16 @@
 
 function drawThermometer(id, src, min, max, current, values) {
 
-    var svg = $('#'+id).svg({loadURL: src});
+    $('#'+id).svg({loadURL: src, onLoad: function(svg, error) {
+        var svg2 = $('#'+id).svg();
 
+        if (current == 1) {
+            svg2.find("g path:first-child()").attr('fill', "yellow");
+        } else {
+            svg2.find("g path:first-child()").attr('fill', "black");
+        }
+
+    }});
   /* TODO
    Passen Sie die Höhe des Temperaturstandes entsprechend dem aktuellen Wert an.
    Beachten Sie weiters, dass auch die Beschriftung des Thermometers (max, min Temperatur) angepasst werden soll.
@@ -22,13 +30,13 @@ function drawThermometer(id, src, min, max, current, values) {
 }
 
 function drawBulb(id, src, min, max, current, values) {
-    console.log(current)
-   //var svg = $('#'+id).svg({loadURL: src, onLoad: drawBulbLoadDone});
-    var svg = $('#'+id).svg({loadURL: src, onLoad: function(svg, error) {
+    $('#'+id).svg({loadURL: src, onLoad: function(svg, error) {
+        var svg2 = $('#'+id).svg();
+
         if (current == 1) {
-            svg.style('#Capa_1 { fill: yellow }'); // TODO: error in der ID auswahl
+            svg2.find("g path:first-child()").attr('fill', "yellow");
         } else {
-            svg.style('#Capa_1 { fill: black }'); // TODO: error in der ID auswahl
+            svg2.find("g path:first-child()").attr('fill', "black");
         }
 
     }});
