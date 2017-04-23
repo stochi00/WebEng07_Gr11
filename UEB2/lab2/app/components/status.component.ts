@@ -6,4 +6,5 @@ import {Component} from '@angular/core';
     templateUrl: '../views/status.html'
 })
 
-export class StatusComponent{}
+export class StatusComponent {
+}

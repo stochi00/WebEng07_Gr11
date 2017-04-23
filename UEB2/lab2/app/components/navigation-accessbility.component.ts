@@ -6,6 +6,6 @@ import {Component, Input} from '@angular/core';
     templateUrl: '../views/navigation-accessibility.html'
 })
 
-export class NavigationAccessibilityComponent{
+export class NavigationAccessibilityComponent {
     @Input() nav_acc_href_id: string;
 }

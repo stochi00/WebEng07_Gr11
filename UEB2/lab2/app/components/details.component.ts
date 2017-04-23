@@ -28,6 +28,7 @@ export class DetailsComponent {
             this.controls_boolean = this.device.control_units.filter((valueb, index, array) => valueb.type == ControlType.boolean);
             this.controls_enum = this.device.control_units.filter((valuee, index, array) => valuee.type == ControlType.enum);
             this.controls_continuous = this.device.control_units.filter((valuec, index, array) => valuec.type == ControlType.continuous);
-        }).catch(reason => {});
+        }).catch(reason => {
+        });
     }
 }

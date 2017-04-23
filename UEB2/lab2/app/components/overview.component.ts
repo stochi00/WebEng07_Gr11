@@ -9,17 +9,17 @@ import {Device} from "../model/device";
     templateUrl: '../views/overview.html'
 })
 
-export class OverviewComponent{
+export class OverviewComponent {
     nav_acc_href_id = "#devicesheadline";
     devices: Device[] = null;
 
     public constructor(private titleService: Title, deviceService: DeviceService) {
         titleService.setTitle("BIG Smart Home - Geräte");
-        deviceService.getDevices().then(value => this.devices = value).catch(reason => {});
+        deviceService.getDevices().then(value => this.devices = value).catch(reason => {
+        });
     }
 
-    handleDeviceRemoved(device: Device)
-    {
+    handleDeviceRemoved(device: Device) {
         let index: number = this.devices.indexOf(device);
         if (index !== -1) {
             this.devices.splice(index, 1);
