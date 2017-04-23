@@ -22,12 +22,16 @@ function drawThermometer(id, src, min, max, current, values) {
 }
 
 function drawBulb(id, src, min, max, current, values) {
+    console.log(current)
+   //var svg = $('#'+id).svg({loadURL: src, onLoad: drawBulbLoadDone});
+    var svg = $('#'+id).svg({loadURL: src, onLoad: function(svg, error) {
+        if (current == 1) {
+            svg.style('#Capa_1 { fill: yellow }'); // TODO: error in der ID auswahl
+        } else {
+            svg.style('#Capa_1 { fill: black }'); // TODO: error in der ID auswahl
+        }
 
-    $('#'+id).svg({loadURL: src});
-
-    console.log("drawBulb");
-  // TODO
-
+    }});
 }
 
 function drawCam(id, src, min, max, current, values) {
