@@ -15,8 +15,6 @@ function drawThermometer(id, src, min, max, current, values) {
 
     var svg = $('#'+id).svg({loadURL: src});
 
-
-
   /* TODO
    Passen Sie die Höhe des Temperaturstandes entsprechend dem aktuellen Wert an.
    Beachten Sie weiters, dass auch die Beschriftung des Thermometers (max, min Temperatur) angepasst werden soll.
@@ -27,17 +25,9 @@ function drawBulb(id, src, min, max, current, values) {
 
     $('#'+id).svg({loadURL: src});
 
-
     console.log("drawBulb");
   // TODO
 
-
-
-    $('#' + id).svg('get'); //Erstellt ein leeres SVG Element
-    $('#' + id).load(src); //Lädt das Bild
-    // TODO svg laden...
-
-    // get img with id: device.id
 }
 
 function drawCam(id, src, min, max, current, values) {
