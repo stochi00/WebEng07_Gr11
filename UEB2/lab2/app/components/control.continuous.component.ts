@@ -8,18 +8,18 @@ import {DatePipe} from "@angular/common";
     templateUrl: '../views/controlcontinuous.html'
 })
 
-export class ControlContinuous{
+export class ControlContinuous {
     @Input() controlunit: ControlUnit;
-    log:LogEntry[] = [];
+    log: LogEntry[] = [];
 
-    chartLabels:string[] = ['Verlauf'];
-    charData:number[] = [];
-    chartType:string = 'line';
+    chartLabels: string[] = ['Verlauf'];
+    charData: number[] = [];
+    chartType: string = 'line';
 
 
-    setValue(value: number){
+    setValue(value: number) {
         this.log.push(new LogEntry(this.controlunit.current, value));
-        this.controlunit.current=value;
+        this.controlunit.current = value;
 
 
         this.charData.push(value);
@@ -45,17 +45,14 @@ class LogEntry {
     oldvalue: any;
     newvalue: any;
 
-
-    public constructor(oldvalue: any, newvalue: any){
-
+    public constructor(oldvalue: any, newvalue: any) {
         this.datepipe = new DatePipe('DE-de');
         this.datetime = new Date();
         this.oldvalue = oldvalue;
         this.newvalue = newvalue;
     }
 
-    toString() :string
-    {
-        return this.datepipe.transform(this.datetime,"dd.MM.yyyy hh:mm:ss") + " " + " " + this.oldvalue + " -> " + this.newvalue;
+    toString(): string {
+        return this.datepipe.transform(this.datetime, "dd.MM.yyyy hh:mm:ss") + " " + " " + this.oldvalue + " -> " + this.newvalue;
     }
 }

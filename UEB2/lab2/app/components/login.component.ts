@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import { Title }     from '@angular/platform-browser';
+import {Title}     from '@angular/platform-browser';
 
 @Component({
     moduleId: module.id,
@@ -9,7 +9,7 @@ import { Title }     from '@angular/platform-browser';
 export class LoginComponent {
     nav_acc_href_id = "#formheadline";
 
-    public constructor(private titleService: Title ) {
+    public constructor(private titleService: Title) {
         titleService.setTitle("BIG Smart Home - Login");
     }
 }

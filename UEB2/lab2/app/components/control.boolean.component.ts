@@ -8,19 +8,18 @@ import {DatePipe} from "@angular/common";
     templateUrl: '../views/controlboolean.html'
 })
 
-export class ControlBoolean{
+export class ControlBoolean {
     @Input() controlunit: ControlUnit;
-    log:LogEntry[] = [];
-    chartLabels:string[] = ['An','Aus'];
-    charData:number[] = [0,0];
-    chartType:string = 'doughnut';
+    log: LogEntry[] = [];
+    chartLabels: string[] = ['An', 'Aus'];
+    charData: number[] = [0, 0];
+    chartType: string = 'doughnut';
 
+    setValue(value: boolean) {
+        this.log.push(new LogEntry((this.controlunit.current ? "An" : "Aus"), (value ? "An" : "Aus")));
+        this.controlunit.current = (value ? 1 : 0);
 
-    setValue(value: boolean){
-        this.log.push(new LogEntry((this.controlunit.current?"An":"Aus"), (value?"An":"Aus")));
-        this.controlunit.current=(value?1:0);
-
-        if(value)
+        if (value)
             this.charData[0]++;
         else
             this.charData[1]++;
@@ -46,18 +45,14 @@ class LogEntry {
     oldvalue: any;
     newvalue: any;
 
-
-    public constructor(oldvalue: any, newvalue: any){
-
+    public constructor(oldvalue: any, newvalue: any) {
         this.datepipe = new DatePipe('DE-de');
         this.datetime = new Date();
         this.oldvalue = oldvalue;
         this.newvalue = newvalue;
     }
 
-    toString() :string
-    {
-        return this.datepipe.transform(this.datetime,"dd.MM.yyyy hh:mm:ss") + " " + " " + this.oldvalue + " -> " + this.newvalue;
+    toString(): string {
+        return this.datepipe.transform(this.datetime, "dd.MM.yyyy hh:mm:ss") + " " + " " + this.oldvalue + " -> " + this.newvalue;
     }
 }
-

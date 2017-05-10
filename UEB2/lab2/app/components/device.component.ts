@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
     templateUrl: '../views/device.html',
 })
 
-export class DeviceComponent implements AfterViewInit  {
+export class DeviceComponent implements AfterViewInit {
     @Input() device: Device;
     @Output() deviceRemoved = new EventEmitter();
 
@@ -19,19 +19,15 @@ export class DeviceComponent implements AfterViewInit  {
     public temp_name: string;
 
     ngAfterViewInit() {
-        //function drawThermometer(id, src, min, max, current, values) {
         this.device.draw_image(this.device.id,
             this.device.image,
             this.device.control_units[0].min,
             this.device.control_units[0].max,
             this.device.control_units[0].current,
             this.device.control_units[0].values);
-        //$('#svgintro').svg({onLoad: drawIntro});
     }
 
     constructor(private router: Router) {
-        //draw_image(id, src, min, max, current, values)
-
     }
 
     public removeItem() {
@@ -54,7 +50,7 @@ export class DeviceComponent implements AfterViewInit  {
         if (clickedComponent.className == "device-edit") {
             return;
         }
-        
+
         this.isEditable = false;
     }
 

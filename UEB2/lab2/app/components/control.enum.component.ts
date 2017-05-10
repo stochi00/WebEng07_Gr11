@@ -8,22 +8,22 @@ import {DatePipe} from "@angular/common";
     templateUrl: '../views/controlenum.html'
 })
 
-export class ControlEnum{
+export class ControlEnum {
     @Input() controlunit: ControlUnit;
-    log:LogEntry[] = [];
+    log: LogEntry[] = [];
 
-    chartLabels:string[] = [];
-    charData:number[] = [];
-    chartType:string = 'polarArea';
+    chartLabels: string[] = [];
+    charData: number[] = [];
+    chartType: string = 'polarArea';
 
     OnInit() {
         this.chartLabels = this.controlunit.values;
         this.charData = new Array(this.controlunit.values.length);
     }
 
-    setValue(value: number){
+    setValue(value: number) {
         this.log.push(new LogEntry(this.controlunit.values[this.controlunit.current], this.controlunit.values[value]));
-        this.controlunit.current=value;
+        this.controlunit.current = value;
         this.charData[value]++;
         this.charData = this.charData.slice();
     }
@@ -47,8 +47,7 @@ class LogEntry {
     oldvalue: any;
     newvalue: any;
 
-
-    public constructor(oldvalue: any, newvalue: any){
+    public constructor(oldvalue: any, newvalue: any) {
 
         this.datepipe = new DatePipe('DE-de');
         this.datetime = new Date();
@@ -56,8 +55,7 @@ class LogEntry {
         this.newvalue = newvalue;
     }
 
-    toString() :string
-    {
-        return this.datepipe.transform(this.datetime,"dd.MM.yyyy hh:mm:ss") + " " + " " + this.oldvalue + " -> " + this.newvalue;
+    toString(): string {
+        return this.datepipe.transform(this.datetime, "dd.MM.yyyy hh:mm:ss") + " " + " " + this.oldvalue + " -> " + this.newvalue;
     }
 }

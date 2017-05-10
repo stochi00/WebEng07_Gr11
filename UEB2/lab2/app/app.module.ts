@@ -44,4 +44,5 @@ import {DeviceService} from "./services/device.service";
     providers: [DeviceService],
     bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}
