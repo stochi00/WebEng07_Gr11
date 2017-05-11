@@ -63,52 +63,149 @@ app.post("/updateCurrent", function (req, res) {
  * Selbst definiert API Methoden *
  *********************************/
 
+ /* *************************************************
+  * API - List Devices
+  *
+  * Angabe: Abrufen aller Geräte als Liste
+  *
+  * URL: /listDevices
+  * TYPE: POST
+  * PARAM: <none>
+  *
+  * RETURN TYPE: JSON
+  * RETURN: status - "OK" or "ERROR"
+  *         message - reason why it failed, "List successful sent." otherwise
+  *         devices - Array of devices (like in the source file [resources/devices.json])
+  */
+
 app.post("/listDevices", function (req, res) {
     "use strict";
-    //TODO Abrufen aller Geräte als Liste
-    /*
-     * @Manuel habe ich selbst definiert
-     */
-    console.log('Parameter:' + req.params.id + ', ' + req.query.time);
-    res.writeHead(200, {'Content-Type':   'text/html'});
-    res.write("updateCurrent called");
+
+    var json = {
+        status: "OK",
+        message: "List successful sent.",
+        devices: devices.devices
+    }
+
+    res.json(json)
     res.end();
 });
 
+/* *************************************************
+ * API - Add Device
+ *
+ * Angabe: Hinzufügen eines neuen Gerätes
+ *
+ * URL: /addDevice
+ * TYPE: POST (application/json)
+ * PARAM: device - [same like in resources/devices.json without id part]
+ *
+ * RETURN TYPE: JSON
+ * RETURN: status - "OK" or "ERROR"
+ *         message - reason why it failed, "Device added successfully." otherwise
+ */
 
 app.post("/addDevice", function (req, res) {
     "use strict";
-    //TODO Hinzufügen eines neuen Gerätes
-    /*
-     * @Manuel habe ich selbst definiert
-     */
-    console.log('Parameter:' + req.params.id + ', ' + req.query.time);
-    res.writeHead(200, {'Content-Type':   'text/html'});
-    res.write("updateCurrent called");
+
+    var status_OK = "OK";
+    var status_ERROR = "ERROR";
+
+    var message = "Device added successfully.";
+    var status = status_OK;
+
+    try{
+       //create new uuid
+        req.body.id = uuid();
+
+        //add device
+        devices.devices.push(req.body);
+
+        //TODO inform all sockets
+
+
+    }catch (ex){
+        status = status_ERROR;
+        message = ex.message;
+    }
+
+    var json = {
+        status: status,
+        message: message
+    }
+
+    res.json(json)
     res.end();
 });
 
+/* *************************************************
+ * API - Delete Device
+ *
+ * Angabe: Löschen eines vorhandenen Gerätes
+ *
+ * URL: /deleteDevice
+ * TYPE: POST
+ * PARAM: id  - id of device
+
+ *
+ * RETURN TYPE: JSON
+ * RETURN: status - "OK" or "ERROR"
+ *         message - reason why it failed, "Device deleted successfully." otherwise
+ */
 
 app.post("/deleteDevice", function (req, res) {
     "use strict";
-    //TODO Löschen eines vorhandenen Gerätes
-    /*
-     * @Manuel habe ich selbst definiert
-     */
-    console.log('Parameter:' + req.params.id + ', ' + req.query.time);
-    res.writeHead(200, {'Content-Type':   'text/html'});
-    res.write("updateCurrent called");
+
+    var status_OK = "OK";
+    var status_ERROR = "ERROR";
+
+    var message = "Device deleted successfully.";
+    var status = status_OK;
+
+    try{
+        var targetIndex;
+
+        //find device
+        for (var i in devices.devices){
+            if(devices.devices[i].id == req.body.id){
+                targetIndex = i;
+                break;
+            }
+        }
+        if(targetIndex === undefined)
+            throw new Error("Device not found.");
+
+        devices.devices.splice(targetIndex,1);
+
+        //TODO: inform all sockets
+
+    }catch (ex){
+        status = status_ERROR;
+        message = ex.message;
+    }
+
+    var json = {
+        status: status,
+        message: message
+    }
+
+    res.json(json)
     res.end();
 });
 
 /* *************************************************
  * API - Update Device
  *
+ * Angabe: Bearbeiten eines vorhandenen Gerätes (Verändern des Gerätezustandes und Anpassen des Anzeigenamens)
+ *
  * URL: /updateDevice
  * TYPE: POST
  * PARAM: id  - id of device
  *        name - name of control_unit
  *        value - current value (see "current")
+ *              - boolean: 0 or 1
+ *              - enum: name of value (not id!!)
+ *              - continuous: value in range, otherwise error
  *
  * RETURN TYPE: JSON
  * RETURN: status - "OK" or "ERROR"
@@ -117,32 +214,62 @@ app.post("/deleteDevice", function (req, res) {
 
 app.post("/updateDevice", function (req, res) {
     "use strict";
-    //TODO Bearbeiten eines vorhandenen Gerätes (Verändern des Gerätezustandes und Anpassen des Anzeigenamens)
-
     var status_OK = "OK";
     var status_ERROR = "ERROR";
 
     var message = "Device change successfully.";
     var status = status_OK;
 
-    console.log('Parameter: id: ' + req.body.id + ', name: ' + req.body.name + ", value: " + req.body.value);
-
     try{
-        if(req.body.oldpwd != validUserpassword) throw new Error("Wrong password entered.");
-        if(req.body.newpwd != req.body.newpwd_rep) throw new Error("New passwords are note equal.");
+        var targetDevice;
+        var targetUnit;
 
-        var login_file = "username: admin@mail.com\npassword: " + req.body.newpwd;
-
-        fs.writeFile('resources/login.config', login_file,  function(err) {
-            if (err) {
-                return console.error(err);
+        //find device
+        for (var i in devices.devices){
+            if(devices.devices[i].id == req.body.id){
+                targetDevice = devices.devices[i];
+                break;
             }
-            console.log("Data written successfully!");
-        });
+        }
+        if(targetDevice === undefined)
+            throw new Error("Device not found.");
 
+        //find control unit
+        for (var i in targetDevice.control_units){
+            if(targetDevice.control_units[i].name == req.body.name){
+                targetUnit = targetDevice.control_units[i];
+                break;
+            }
+            throw new Error("Control unit not found.");
+        }
 
-    }catch (ex)
-    {
+        //find possible values and set the new value.
+        switch(targetUnit.type){
+            case "continuous":
+                if(req.body.value<targetUnit.min || req.body.value > targetUnit.max)
+                    throw new Error("Continuous value out of range.");
+                break;
+
+            case "boolean":
+                if(req.body.value!=0 && req.body.value != 1)
+                    throw new Error("Boolean value out of range.");
+                break;
+
+            case "enum":
+                if(targetUnit.values.indexOf(req.body.value) <= -1)
+                    throw new Error("Enum value out of range.");
+                break;
+
+            default:
+                throw new Error("Control unit type unknown.");
+        }
+
+        //set value
+        targetUnit.current = req.body.value;
+
+        //TODO: inform all sockets
+
+    }catch (ex){
         status = status_ERROR;
         message = ex.message;
     }
@@ -157,6 +284,20 @@ app.post("/updateDevice", function (req, res) {
 
 });
 
+/* *************************************************
+ * API - login
+ *
+ * Angabe: Log-in und Log-out des Benutzers
+ *
+ * URL: /login
+ * TYPE: POST
+ * PARAM: username  - old password
+ *        password - new password
+ *
+ * RETURN TYPE: JSON
+ * RETURN: status - "OK" or "ERROR"
+ *         message - reason why it failed, "Login successful." otherwise
+ */
 
 app.post("/login", function (req, res) {
     "use strict";
@@ -164,15 +305,41 @@ app.post("/login", function (req, res) {
     /*
      * @Manuel habe ich selbst definiert
      */
-    console.log('Parameter:' + req.params.id + ', ' + req.query.time);
-    res.writeHead(200, {'Content-Type':   'text/html'});
-    res.write("updateCurrent called");
+    var status_OK = "OK";
+    var status_ERROR = "ERROR";
+
+    var message = "Login successful.";
+    var status = status_OK;
+
+    try{
+        if(req.body.username !== validUsername) throw new Error("Wrong username or password.(0)");
+        if(req.body.password !== validUserpassword) throw new Error("Wrong username or password. (1)");
+
+        //create socket
+
+
+    }catch (ex){
+        status = status_ERROR;
+        message = ex.message;
+
+        wrongLogins ++;
+    }
+
+    var json = {
+        status: status,
+        message: message
+    }
+
+    res.json(json)
     res.end();
+
 });
 
 
 /* *************************************************
  * API - Change Password
+ *
+ * Angabe: Ändern des Passworts
  *
  * URL: /changePassword
  * TYPE: POST
@@ -187,19 +354,15 @@ app.post("/login", function (req, res) {
 
 app.post("/changePassword", function (req, res) {
     "use strict";
-    //TODO Ändern des Passworts
-
     var status_OK = "OK";
     var status_ERROR = "ERROR";
 
     var message = "Password changed successfully.";
     var status = status_OK;
 
-    console.log('Parameter: oldpwd: ' + req.body.oldpwd + ', newpwd: ' + req.body.newpwd + ", newpwd_rep: " + req.body.newpwd_rep);
-
     try{
-        if(req.body.oldpwd != validUserpassword) throw new Error("Wrong password entered.");
-        if(req.body.newpwd != req.body.newpwd_rep) throw new Error("New passwords are note equal.");
+        if(req.body.oldpwd !== validUserpassword) throw new Error("Wrong password entered.");
+        if(req.body.newpwd !== req.body.newpwd_rep) throw new Error("New passwords are note equal.");
 
         var login_file = "username: admin@mail.com\npassword: " + req.body.newpwd;
 
@@ -211,8 +374,7 @@ app.post("/changePassword", function (req, res) {
         });
 
 
-    }catch (ex)
-    {
+    }catch (ex) {
         status = status_ERROR;
         message = ex.message;
     }
@@ -229,6 +391,8 @@ app.post("/changePassword", function (req, res) {
 /* *************************************************
  * API - Server Status
  *
+ * Angabe: Abrufen des Serverstatus (Startdatum, fehlgeschlagene Log-ins).
+ *
  * URL: /status
  * TYPE: GET
  * PARAM: <none>
@@ -240,8 +404,6 @@ app.post("/changePassword", function (req, res) {
 
 app.get("/status", function (req, res) {
     "use strict";
-    //TODO Abrufen des Serverstatus (Startdatum, fehlgeschlagene Log-ins).
-
     var json = {
         startdate: startDate.toString(),
         loginerrors: wrongLogins
@@ -255,12 +417,12 @@ app.get("/status", function (req, res) {
  * Interne Funktion  *
  *********************/
 
+/*
+ * Angabe: Lesen Sie die Benutzerdaten aus dem login.config File ein.
+ */
+
 function readUser() {
     "use strict";
-    //TODO Lesen Sie die Benutzerdaten aus dem login.config File ein.
-
-    console.log('readUser called');
-
     fs.readFile('resources/login.config', function (err, data) {
         if (err) {
             return console.error(err);
@@ -271,16 +433,17 @@ function readUser() {
     });
 }
 
+/*
+ * Angabe: Lesen Sie die Gerätedaten aus der devices.json Datei ein.
+ */
+
 function readDevices() {
     "use strict";
-    //TODO Lesen Sie die Gerätedaten aus der devices.json Datei ein.
     /*
      * Damit die Simulation korrekt funktioniert, müssen Sie diese mit nachfolgender Funktion starten
      *      simulation.simulateSmartHome(devices.devices, refreshConnected);
      * Der zweite Parameter ist dabei eine callback-Funktion, welche zum Updaten aller verbundenen Clients dienen soll.
      */
-
-    console.log('readDevices called');
 
     fs.readFile('resources/devices.json', function (err, data) {
         if (err) {
@@ -291,6 +454,9 @@ function readDevices() {
     });
 }
 
+/*
+ * Angabe: Übermitteln Sie jedem verbundenen Client die aktuellen Gerätedaten über das Websocket
+ */
 
 function refreshConnected() {
     "use strict";
