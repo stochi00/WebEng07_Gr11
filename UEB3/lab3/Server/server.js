@@ -19,14 +19,16 @@ app.use(bodyParser.json());
 app.use(cors());
 
 
-// @Manuel selber erstellt
-var connectedUsers;
+// -----------------
 var validUsername;
 var validUserpassword;
 var devices;
 
 var startDate =  new Date();
 var wrongLogins = 0;
+
+// token blacklist
+var tokenBlacklist = [];
 
 app.set('jwtTokenSecret', 'GROUP11_FTW');
 
@@ -50,22 +52,50 @@ app.set('jwtTokenSecret', 'GROUP11_FTW');
 
 function authenticate(req, res)
 {
-    if (!req.headers.authorization)
-        return res.status(401).send('You are not authorized');
+    if (!req.headers.authorization){
+        res.status(401).send('You are not authorized');
+        return false;
+    }
 
     var token = req.headers.authorization.split(' ')[1];
 
+    console.log("A Blacklist " + JSON.stringify(tokenBlacklist));
+    console.log("A " + token);
+    console.log("A " + tokenBlacklist.indexOf("" + token));
+
+    if(tokenBlacklist.indexOf("" + token) > -1) {
+        res.status(401).send('Token Expired');
+        return false;
+    }
+
+
     try {
         var payload = jwt.verify(token, app.get('jwtTokenSecret'));
-        return payload;
+        return true;
     } catch (e) {
         if (e.name === 'TokenExpiredError')
             res.status(401).send('Token Expired');
         else
             res.status(401).send('Authentication failed');
 
-        return;
+        return false;
     }
+}
+
+function invalidateToken(req, res)
+{
+    if(!req.headers.authorization){
+        res.status(401).send('You are not authorized');
+        return false;
+    }
+
+    console.log("invalidate called");
+    var token = req.headers.authorization.split(' ')[1];
+    console.log("I " + token);
+    tokenBlacklist.push(""+token);
+
+
+    return true;
 }
 
 
@@ -96,66 +126,66 @@ app.post("/updateCurrent", function (req, res) {
      * Diese Funktion verändert gleichzeitig auch den aktuellen Wert des Gerätes, Sie müssen diese daher nur mit den korrekten Werten aufrufen.
      */
 
-    authenticate(req,res);
+    if(authenticate(req,res)){
+        try{
+            var targetDevice;
+            var targetUnit;
+            var targetValue;
 
-    try{
-        var targetDevice;
-        var targetUnit;
-        var targetValue;
-
-        //find device
-        for (var i in devices.devices){
-            if(devices.devices[i].id == req.body.id){
-                targetDevice = devices.devices[i];
-                break;
+            //find device
+            for (var i in devices.devices){
+                if(devices.devices[i].id == req.body.id){
+                    targetDevice = devices.devices[i];
+                    break;
+                }
             }
-        }
-        if(targetDevice === undefined)
-            throw new Error("Device not found.");
+            if(targetDevice === undefined)
+                throw new Error("Device not found.");
 
-        //find control unit
-        for (var i in targetDevice.control_units){
-            if(targetDevice.control_units[i].name == req.body.name){
-                targetUnit = targetDevice.control_units[i];
-                break;
+            //find control unit
+            for (var i in targetDevice.control_units){
+                if(targetDevice.control_units[i].name == req.body.name){
+                    targetUnit = targetDevice.control_units[i];
+                    break;
+                }
+                throw new Error("Control unit not found.");
             }
-            throw new Error("Control unit not found.");
+
+            //find possible values and set the new value.
+            targetValue = req.body.value;
+            switch(targetUnit.type){
+                case "continuous":
+                    if(req.body.value<targetUnit.min || req.body.value > targetUnit.max)
+                        throw new Error("Continuous value out of range.");
+                    break;
+
+                case "boolean":
+                    if(targetValue !==0 && targetValue !== 1)
+                        throw new Error("Boolean value out of range.");
+                    break;
+
+                case "enum":
+                    targetValue = targetUnit.values.indexOf(targetValue);
+                    if(targetValue <= -1)
+                        throw new Error("Enum value out of range.");
+                    break;
+
+                default:
+                    throw new Error("Control unit type unknown.");
+            }
+
+            //set value
+            simulation.updatedDeviceValue(targetDevice, targetUnit, Number(targetValue));
+
+            //TODO: inform all sockets
+
+        }catch (ex){
+            res.status(400).send(ex.message);
+            return;
         }
 
-        //find possible values and set the new value.
-        targetValue = req.body.value;
-        switch(targetUnit.type){
-            case "continuous":
-                if(req.body.value<targetUnit.min || req.body.value > targetUnit.max)
-                    throw new Error("Continuous value out of range.");
-                break;
-
-            case "boolean":
-                if(targetValue !==0 && targetValue !== 1)
-                    throw new Error("Boolean value out of range.");
-                break;
-
-            case "enum":
-                targetValue = targetUnit.values.indexOf(targetValue);
-                if(targetValue <= -1)
-                    throw new Error("Enum value out of range.");
-                break;
-
-            default:
-                throw new Error("Control unit type unknown.");
-        }
-
-        //set value
-        simulation.updatedDeviceValue(targetDevice, targetUnit, Number(targetValue));
-
-        //TODO: inform all sockets
-
-    }catch (ex){
-        res.status(400).send(ex.message);
-        return;
+        res.status(200).send();
     }
-
-    res.status(200).send();
 });
 
 /*********************************
@@ -180,10 +210,10 @@ app.post("/updateCurrent", function (req, res) {
 app.post("/listDevices", function (req, res) {
     "use strict";
 
-    authenticate(req,res);
-
-    res.json(devices.devices);
-    res.end();
+    if(authenticate(req,res)){
+        res.json(devices.devices);
+        res.end();
+    }
 });
 
 /* *************************************************
@@ -203,23 +233,23 @@ app.post("/listDevices", function (req, res) {
 app.post("/addDevice", function (req, res) {
     "use strict";
 
-    authenticate(req,res);
+    if(authenticate(req,res)){
+        try{
+           //create new uuid
+            req.body.id = uuid();
 
-    try{
-       //create new uuid
-        req.body.id = uuid();
+            //add device
+            devices.devices.push(req.body);
 
-        //add device
-        devices.devices.push(req.body);
-
-        //TODO inform all sockets
+            //TODO inform all sockets
 
 
-    }catch (ex){
-        res.status(400).send(ex.message);
-        return;
+        }catch (ex){
+            res.status(400).send(ex.message);
+            return;
+        }
+        res.status(200).send();
     }
-    res.status(200).send();
 });
 
 /* *************************************************
@@ -240,30 +270,30 @@ app.post("/addDevice", function (req, res) {
 app.post("/deleteDevice", function (req, res) {
     "use strict";
 
-    authenticate(req,res);
+    if(authenticate(req,res)){
+        try{
+            var targetIndex;
 
-    try{
-        var targetIndex;
-
-        //find device
-        for (var i in devices.devices){
-            if(devices.devices[i].id == req.body.id){
-                targetIndex = i;
-                break;
+            //find device
+            for (var i in devices.devices){
+                if(devices.devices[i].id == req.body.id){
+                    targetIndex = i;
+                    break;
+                }
             }
+            if(targetIndex === undefined)
+                throw new Error("Device not found.");
+
+            devices.devices.splice(targetIndex,1);
+
+            //TODO: inform all sockets
+
+        }catch (ex){
+            res.status(400).send(ex.message);
         }
-        if(targetIndex === undefined)
-            throw new Error("Device not found.");
 
-        devices.devices.splice(targetIndex,1);
-
-        //TODO: inform all sockets
-
-    }catch (ex){
-        res.status(400).send(ex.message);
+        res.status(200).send("Device deleted successfully.");
     }
-
-    res.status(200).send("Device deleted successfully.");
 
 });
 
@@ -289,64 +319,64 @@ app.post("/deleteDevice", function (req, res) {
 app.post("/updateDevice", function (req, res) {
     "use strict";
 
-    authenticate(req,res);
+    if(authenticate(req,res)){
+        try{
+            var targetDevice;
+            var targetUnit;
 
-    try{
-        var targetDevice;
-        var targetUnit;
-
-        //find device
-        for (var i in devices.devices){
-            if(devices.devices[i].id == req.body.id){
-                targetDevice = devices.devices[i];
-                break;
+            //find device
+            for (var i in devices.devices){
+                if(devices.devices[i].id == req.body.id){
+                    targetDevice = devices.devices[i];
+                    break;
+                }
             }
-        }
-        if(targetDevice === undefined)
-            throw new Error("Device not found.");
+            if(targetDevice === undefined)
+                throw new Error("Device not found.");
 
-        //find control unit
-        for (var i in targetDevice.control_units){
-            if(targetDevice.control_units[i].name == req.body.name){
-                targetUnit = targetDevice.control_units[i];
-                break;
+            //find control unit
+            for (var i in targetDevice.control_units){
+                if(targetDevice.control_units[i].name == req.body.name){
+                    targetUnit = targetDevice.control_units[i];
+                    break;
+                }
+                throw new Error("Control unit not found.");
             }
-            throw new Error("Control unit not found.");
+
+            //find possible values and set the new value.
+            switch(targetUnit.type){
+                case "continuous":
+                    if(req.body.value<targetUnit.min || req.body.value > targetUnit.max)
+                        throw new Error("Continuous value out of range.");
+                    break;
+
+                case "boolean":
+                    if(req.body.value!=0 && req.body.value != 1)
+                        throw new Error("Boolean value out of range.");
+                    break;
+
+                case "enum":
+                    if(targetUnit.values.indexOf(req.body.value) <= -1)
+                        throw new Error("Enum value out of range.");
+                    break;
+
+                default:
+                    throw new Error("Control unit type unknown.");
+            }
+
+            //set value
+            targetUnit.current = req.body.value;
+            targetDevice.name = req.body.name;
+
+            //TODO: inform all sockets
+
+        }catch (ex){
+            res.status(400).send(ex.message);
+            return;
         }
 
-        //find possible values and set the new value.
-        switch(targetUnit.type){
-            case "continuous":
-                if(req.body.value<targetUnit.min || req.body.value > targetUnit.max)
-                    throw new Error("Continuous value out of range.");
-                break;
-
-            case "boolean":
-                if(req.body.value!=0 && req.body.value != 1)
-                    throw new Error("Boolean value out of range.");
-                break;
-
-            case "enum":
-                if(targetUnit.values.indexOf(req.body.value) <= -1)
-                    throw new Error("Enum value out of range.");
-                break;
-
-            default:
-                throw new Error("Control unit type unknown.");
-        }
-
-        //set value
-        targetUnit.current = req.body.value;
-        targetDevice.name = req.body.name;
-
-        //TODO: inform all sockets
-
-    }catch (ex){
-        res.status(400).send(ex.message);
-        return;
+        res.status(200).send("Device updated successfully.");
     }
-
-    res.status(200).send("Device updated successfully.");
 });
 
 /* *************************************************
@@ -359,9 +389,9 @@ app.post("/updateDevice", function (req, res) {
  * PARAM: username  - username
  *        password - password
  *
- * RETURN TYPE: JSON
- * RETURN: status - "OK" or "ERROR"
- *         message - reason why it failed, "Login successful." otherwise
+ * RETURN TYPE: JSON /RAW
+ * RETURN: HTTP 200 - token
+ *         HTTP 400 - error message
  *
  *  For testing, put the received tockenstring as header attribute
  *  Authorization: Bearer <token>
@@ -371,13 +401,10 @@ app.post("/updateDevice", function (req, res) {
 
 app.post("/login", function (req, res) {
     "use strict";
-    //TODO Log-in und Log-out des Benutzers
-    console.log(validUserpassword);
+
     try{
         if(req.body.username !== validUsername) throw new Error("Wrong username or password.(0)");
         if(req.body.password !== validUserpassword) throw new Error("Wrong username or password. (1)");
-
-        console.log(validUserpassword);
 
         //init JWT
         //var expires = moment().add('days', 7).valueOf();
@@ -385,11 +412,36 @@ app.post("/login", function (req, res) {
             username: req.body.username
         }, app.get('jwtTokenSecret'));
 
+        if(tokenBlacklist.indexOf(token) > -1)
+            tokenBlacklist.splice(tokenBlacklist.indexOf(token),1);
+
         res.status(200).json(token);
 
     }catch (ex){
         res.status(400).send(ex.message);
         wrongLogins ++;
+    }
+});
+
+/* *************************************************
+ * API - logout
+ *
+ * Angabe: Log-in und Log-out des Benutzers
+ *
+ * URL: /login
+ * TYPE: POST
+ *
+ * RETURN TYPE: JSON
+ * RETURN: HTTP 200 - status - "OK" or "ERROR"
+ *         HTTP 400 - reason why it failed, "Login successful." otherwise
+ *
+ */
+
+app.post("/logout", function (req, res) {
+    "use strict";
+
+    if(invalidateToken(req,res)){
+        res.status(200).send();
     }
 });
 
@@ -414,26 +466,26 @@ app.post("/login", function (req, res) {
 app.post("/changePassword", function (req, res) {
     "use strict";
 
-    authenticate(req,res);
+    if(authenticate(req,res)){
+        try{
+            if(req.body.oldpwd !== validUserpassword) throw new Error("Wrong password entered.");
+            if(req.body.newpwd !== req.body.newpwd_rep) throw new Error("New passwords are note equal.");
 
-    try{
-        if(req.body.oldpwd !== validUserpassword) throw new Error("Wrong password entered.");
-        if(req.body.newpwd !== req.body.newpwd_rep) throw new Error("New passwords are note equal.");
+            var login_file = "username: admin@mail.com\npassword: " + req.body.newpwd;
 
-        var login_file = "username: admin@mail.com\npassword: " + req.body.newpwd;
+            fs.writeFile('resources/login.config', login_file,  function(err) {
+                if (err) {
+                    return console.error(err);
+                }
+                console.log("Data written successfully!");
+            });
+        }catch (ex) {
+            res.status(400).send(ex.message);
+            return;
+        }
 
-        fs.writeFile('resources/login.config', login_file,  function(err) {
-            if (err) {
-                return console.error(err);
-            }
-            console.log("Data written successfully!");
-        });
-    }catch (ex) {
-        res.status(400).send(ex.message);
-        return;
+        res.status(200).send("Password changed.");
     }
-
-    res.status(200).send("Password changed.");
 });
 
 /* *************************************************
@@ -453,13 +505,13 @@ app.post("/changePassword", function (req, res) {
 app.get("/status", function (req, res) {
     "use strict";
 
-    authenticate(req,res);
-
-    res.json({
-        startdate: startDate.toString(),
-        loginerrors: wrongLogins
-    });
-    res.end();
+    if(authenticate(req,res)){
+        res.json({
+            startdate: startDate.toString(),
+            loginerrors: wrongLogins
+        });
+        res.end();
+    }
 });
 
 /*********************
