@@ -5,7 +5,7 @@
 <my-navigation></my-navigation>
 <div class="main-container">
   <main aria-labelledby="formheadline">
-    <form class="form" method="post" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+    <form class="form" method="post" #f="ngForm" (ngSubmit)="onSubmit(loginForm)">
       <h2 id="formheadline" class="registration-headline">Anmelden</h2>
       <div class="form-row" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
         <label class="form-label" for="username-input">
