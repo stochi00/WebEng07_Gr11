@@ -16,6 +16,7 @@ import {OptionsComponent} from './components/options.component';
 import {DeviceService} from './services/device.service';
 import {AuthenticationService} from './services/authentication.service';
 import {AlertService} from './services/alert.service';
+import {AuthGuard} from './guards/auth.guard';
 import {DeviceParserService} from './services/device-parser.service';
 import {DeviceDetailsComponent} from "./components/device-details.component";
 import {ContinuousDeviceDetailsComponent} from "./components/continuous-device-details.component";
@@ -53,6 +54,7 @@ import {OverlayComponent} from "./components/overlay.component";
     AuthenticationService,
     AlertService,
     DeviceParserService,
+      AuthGuard
   ],
   bootstrap: [AppComponent]
 })
