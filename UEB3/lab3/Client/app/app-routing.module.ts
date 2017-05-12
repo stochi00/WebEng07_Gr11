@@ -5,10 +5,11 @@ import {OverviewComponent} from './components/overview.component';
 import {LoginComponent} from './components/login.component';
 import {OptionsComponent} from './components/options.component';
 import {DeviceDetailsComponent} from "./components/device-details.component";
+import { AuthGuard } from './guards/auth.guard';
 
 //TODO Setzen Sie Angular Guards ein um einen unbefugten Zugriff zu verhindern
 const routes: Routes = [
-  {path: '', redirectTo: '/login', pathMatch: 'full'},
+  { path: '', component: OverviewComponent, canActivate: [AuthGuard] },
   {path: 'login', component: LoginComponent},
   {path: 'overview', component: OverviewComponent},
   {path: 'options', component: OptionsComponent},

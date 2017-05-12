@@ -1,7 +1,7 @@
 import {NgModule, LOCALE_ID} from '@angular/core';
 import {BrowserModule}  from '@angular/platform-browser';
 import {FormsModule}    from '@angular/forms';
-import {HttpModule}    from '@angular/http';
+import {HttpModule, JsonpModule}    from '@angular/http';
 import {AppRoutingModule} from './app-routing.module';
 import {ChartsModule} from 'ng2-charts';
 import {DatePipe} from '@angular/common';
@@ -14,6 +14,8 @@ import {NavigationComponent} from './components/navigation.component';
 import {OverviewComponent} from './components/overview.component';
 import {OptionsComponent} from './components/options.component';
 import {DeviceService} from './services/device.service';
+import {AuthenticationService} from './services/authentication.service';
+import {AlertService} from './services/alert.service';
 import {DeviceParserService} from './services/device-parser.service';
 import {DeviceDetailsComponent} from "./components/device-details.component";
 import {ContinuousDeviceDetailsComponent} from "./components/continuous-device-details.component";
@@ -26,6 +28,7 @@ import {OverlayComponent} from "./components/overlay.component";
     BrowserModule,
     FormsModule,
     HttpModule,
+    JsonpModule,
     AppRoutingModule,
     ChartsModule,
   ],
@@ -47,6 +50,8 @@ import {OverlayComponent} from "./components/overlay.component";
     { provide: LOCALE_ID, useValue: "de-at" },
     DatePipe,
     DeviceService,
+    AuthenticationService,
+    AlertService,
     DeviceParserService,
   ],
   bootstrap: [AppComponent]
