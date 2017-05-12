@@ -26,8 +26,6 @@ var devices;
 
 var startDate =  new Date();
 var wrongLogins = 0;
-
-// token blacklist
 var tokenBlacklist = [];
 
 app.set('jwtTokenSecret', 'GROUP11_FTW');
@@ -50,6 +48,13 @@ app.set('jwtTokenSecret', 'GROUP11_FTW');
  */
 
 
+/*
+ *  Checks if the JWT header is available and correct.
+ *
+ *  RETURN: true - alright
+ *          false - JWT header not correct (HTTP Error sent) *
+ */
+
 function authenticate(req, res)
 {
     if (!req.headers.authorization){
@@ -59,18 +64,13 @@ function authenticate(req, res)
 
     var token = req.headers.authorization.split(' ')[1];
 
-    console.log("A Blacklist " + JSON.stringify(tokenBlacklist));
-    console.log("A " + token);
-    console.log("A " + tokenBlacklist.indexOf("" + token));
-
     if(tokenBlacklist.indexOf("" + token) > -1) {
         res.status(401).send('Token Expired');
         return false;
     }
 
-
     try {
-        var payload = jwt.verify(token, app.get('jwtTokenSecret'));
+        jwt.verify(token, app.get('jwtTokenSecret'));
         return true;
     } catch (e) {
         if (e.name === 'TokenExpiredError')
@@ -82,6 +82,14 @@ function authenticate(req, res)
     }
 }
 
+/*
+ *  Adds the current token on a blacklist.
+ *  This token is marked as invalid now.
+ *
+ *  RETURN: true - alright
+ *          false - JWT header not found (HTTP Error sent) *
+ */
+
 function invalidateToken(req, res)
 {
     if(!req.headers.authorization){
@@ -89,12 +97,8 @@ function invalidateToken(req, res)
         return false;
     }
 
-    console.log("invalidate called");
     var token = req.headers.authorization.split(' ')[1];
-    console.log("I " + token);
     tokenBlacklist.push(""+token);
-
-
     return true;
 }
 
