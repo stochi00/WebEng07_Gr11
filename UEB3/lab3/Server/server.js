@@ -213,7 +213,7 @@ app.post("/updateCurrent", function (req, res) {
 
 app.post("/listDevices", function (req, res) {
     "use strict";
-
+    console.log("in list devices");
     if(authenticate(req,res)){
         res.json(devices.devices);
         res.end();
@@ -403,11 +403,11 @@ app.post("/updateDevice", function (req, res) {
  *
  */
 
-app.post("/login", function (req, res) {
+app.get("/login", function (req, res) {
     "use strict";
-
+    console.log("login versuch"+req.body.username+"_"+req.json);
     try{
-        if(req.body.username !== validUsername) throw new Error("Wrong username or password.(0)");
+        if(req.body.username !== validUsername) throw new Error("Wrong username or password.(0) ___"+req.body.username+"="+validUsername);
         if(req.body.password !== validUserpassword) throw new Error("Wrong username or password. (1)");
 
         //init JWT
