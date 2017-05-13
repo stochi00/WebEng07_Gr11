@@ -407,8 +407,11 @@ app.post("/login", function (req, res) {
     "use strict";
 
     try{
-        if(req.body.username !== validUsername) throw new Error("Wrong username or password.(0)");
-        if(req.body.password !== validUserpassword) throw new Error("Wrong username or password. (1)");
+        //if(req.body.username !== validUsername) throw new Error("Wrong username or password.(0)");
+        //if(req.body.password !== validUserpassword) throw new Error("Wrong username or password. (1)");
+
+        if(req.body.username !== "admin@mail.com") throw new Error("Wrong username or password.(0)");
+        if(req.body.password !== "qwerty") throw new Error("Wrong username or password. (1)");
 
         //init JWT
         //var expires = moment().add('days', 7).valueOf();
