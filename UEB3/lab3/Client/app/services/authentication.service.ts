@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http,  RequestOptions, URLSearchParams , Response } from '@angular/http';
+import { Http,  RequestOptions, URLSearchParams , Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
 
@@ -13,10 +13,8 @@ export class AuthenticationService {
         params.set('password', password);
 
         let requestOptions = new RequestOptions();
-        requestOptions.search = params;
 
-
-        return this.http.get('http://localhost:8081/login1?username='+ username + '&password=' + password)
+        return this.http.get('http://localhost:8081/login?username='+ username + '&password=' + password)
             .map((response: Response) => {
                 // login successful if there's a jwt token in the response
                 let user = response.json();
