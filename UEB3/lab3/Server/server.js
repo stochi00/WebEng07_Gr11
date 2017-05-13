@@ -18,8 +18,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
 
+// ---------------------------------------------------------------------------------------------------------------------
 
-// -----------------
 var validUsername;
 var validUserpassword;
 var devices;
@@ -406,12 +406,11 @@ app.post("/updateDevice", function (req, res) {
 app.post("/login", function (req, res) {
     "use strict";
 
-    try{
-        //if(req.body.username !== validUsername) throw new Error("Wrong username or password.(0)");
-        //if(req.body.password !== validUserpassword) throw new Error("Wrong username or password. (1)");
+    console.log("login attempt: username: " + req.body.username + " / password: " + req.body.password);
 
-        if(req.body.username !== "admin@mail.com") throw new Error("Wrong username or password.(0)");
-        if(req.body.password !== "qwerty") throw new Error("Wrong username or password. (1)");
+    try{
+        if(req.body.username !== validUsername) throw new Error("Wrong username or password.(0)");
+        if(req.body.password !== validUserpassword) throw new Error("Wrong username or password. (1)");
 
         //init JWT
         //var expires = moment().add('days', 7).valueOf();
@@ -533,8 +532,10 @@ function readUser() {
     "use strict";
     var data = fs.readFileSync('resources/login.config');
 
-    validUsername = data.toString().substring(10, 24);
-    validUserpassword = data.toString().substring(35, 42);
+    validUsername = data.toString().substring(10, data.toString().indexOf("\n") - 1);
+    //console.log("<" + validUsername + ">");
+    validUserpassword = data.toString().substring(data.toString().indexOf("\n") + 11);
+    //console.log("<" + validUserpassword + ">");
 }
 
 /*
@@ -569,7 +570,7 @@ function refreshConnected() {
      * Bitte beachten Sie, dass diese Funktion von der Simulation genutzt wird um periodisch die simulierten Daten an alle Clients zu übertragen.
      */
 
-    console.log('refreshConnected called');
+    //console.log('refreshConnected called');
 }
 
 
