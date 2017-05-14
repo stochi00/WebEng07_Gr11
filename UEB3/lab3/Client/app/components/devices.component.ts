@@ -17,6 +17,8 @@ export class DevicesComponent implements OnInit, AfterViewChecked {
 
     device_num: number = 0;
 
+    error = false;
+
     constructor(private deviceService: DeviceService) {
     }
 
@@ -124,6 +126,14 @@ export class DevicesComponent implements OnInit, AfterViewChecked {
     finishEdit(device: Device): void {
         this.showLabel(device);
         //TODO Lesen Sie den geänderten Anzeigenamen aus und speichern Sie diesen über die REST-Schnittstelle
+        this.deviceService.updateDevice(device.id,device.control_units[0].name,"1").subscribe(
+            data => {
+
+                this.error = false;
+            },
+            error => {
+                this.error = true;
+            });
     }
 
     /**
@@ -131,7 +141,20 @@ export class DevicesComponent implements OnInit, AfterViewChecked {
      * @param device
      */
     removeDevice(device: Device): void {
-        //TODO Löschen Sie das angegebene Geräte über die REST-Schnittstelle
+        console.log('in remove Device component ....id =>'+device.id);
+
+        this.deviceService.removeDevice(device.id).subscribe(
+            data => {
+
+                this.error = false;
+                this.listDevices();
+            },
+            error => {
+                this.error = true;
+            });
+
+
+
     }
 
     /**
@@ -153,6 +176,8 @@ export class DevicesComponent implements OnInit, AfterViewChecked {
         var remove = device_outer.find(".device-remove");
         remove.attr("src", "../images/remove.png");
     }
+
+
 
 
 }

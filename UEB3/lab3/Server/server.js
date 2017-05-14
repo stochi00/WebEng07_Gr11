@@ -93,11 +93,12 @@ function authenticate(req, res)
 function invalidateToken(req, res)
 {
     if(!req.headers.authorization){
-        res.status(401).send('You are not authorized');
+        res.status(401).send('You are not authorized'+req.headers.authorization);
         return false;
     }
 
     var token = req.headers.authorization.split(' ')[1];
+    console.log(token);
     tokenBlacklist.push(""+token);
     return true;
 }

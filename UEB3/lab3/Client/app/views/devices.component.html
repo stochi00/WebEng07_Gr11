@@ -1,5 +1,5 @@
+<div *ngIf="error" class="form-row form-row-center form-error" id="login-error">Das ausgewählte Gerät konnte nicht gelöscht werden!</div>
 <div class="devices">
-
   <div *ngFor="let device of devices" class="device-outer" [attr.data-device-id]="device.id">
     <a class="device" [routerLink]="isEdited(device) ? null : ['/details', device.id]"
        [attr.title]="device.description">

@@ -26,7 +26,7 @@ export class AuthenticationService {
 
                 if (token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(token));
+                    localStorage.setItem('currentUser', token);
                 }
             }).catch(this.handleError);
 
@@ -39,7 +39,18 @@ export class AuthenticationService {
     }
 
     logout() {
+        let header = new Headers();
+        header.append('Content-Type','application/x-www-form-urlencoded');
+        header.append('Authorization','Bearer '+localStorage.getItem('currentUser'));
+
+
+
+        return this.http.post('http://localhost:8081/logout','nothing=nothing',{headers: header})
+            .map((response: Response) => {
+                localStorage.removeItem('currentUser');
+            }).catch(this.handleError);
         // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
+
+
     }
 }
