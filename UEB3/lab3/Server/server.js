@@ -532,7 +532,7 @@ function readUser() {
     "use strict";
     var data = fs.readFileSync('resources/login.config');
 
-    validUsername = data.toString().substring(10, data.toString().indexOf("\n") - 1);
+    validUsername = data.toString().substring(10, data.toString().indexOf("\n"));
     //console.log("<" + validUsername + ">");
     validUserpassword = data.toString().substring(data.toString().indexOf("\n") + 11);
     //console.log("<" + validUserpassword + ">");
