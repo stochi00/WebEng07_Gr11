@@ -1,6 +1,7 @@
 import {Component, OnInit, AfterViewChecked} from '@angular/core';
 import {DeviceService} from "../services/device.service";
 import {Device} from "../model/device";
+import 'rxjs/add/operator/map';
 
 declare var $: any;
 
@@ -11,7 +12,7 @@ declare var $: any;
 })
 export class DevicesComponent implements OnInit, AfterViewChecked {
 
-    devices: Device[];
+    devices: Device[] = [];
     update: boolean = true;
     edit: { id: string, value: boolean }[];
 
@@ -45,6 +46,7 @@ export class DevicesComponent implements OnInit, AfterViewChecked {
 
         this.update = false;
         for (let device of this.devices) {
+            console.log(device.image);
             if (device.draw_image == null) {
                 continue;
             }
@@ -61,9 +63,10 @@ export class DevicesComponent implements OnInit, AfterViewChecked {
      * Liest alle Geräte aus und initialisiert ein Flag zum Editierungs-Status dieses Gerätes
      */
     listDevices() {
+        console.log("in list devices");
         this.deviceService.getDevices().then(devices => {
             this.devices = devices;
-            this.edit = new Array(this.devices.length);
+           this.edit = new Array(this.devices.length);
             for (let i = 0; i < this.devices.length; i++) {
                 this.edit[i] = {id: this.devices[i].id, value: false};
             }
