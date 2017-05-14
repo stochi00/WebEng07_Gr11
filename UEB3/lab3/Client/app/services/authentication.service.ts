@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http,  RequestOptions, URLSearchParams , Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class AuthenticationService {
@@ -11,35 +12,32 @@ export class AuthenticationService {
         let params: URLSearchParams = new URLSearchParams();
         params.set('username', username);
         params.set('password', password);
+        let body = params.toString();
 
-        let requestOptions = new RequestOptions();
+        let header = new Headers();
+        header.append('Content-Type','application/x-www-form-urlencoded');
 
-        return this.http.get('http://localhost:8081/login?username='+ username + '&password=' + password)
+
+
+        return this.http.post('http://localhost:8081/login',body,{headers: header})
             .map((response: Response) => {
                 // login successful if there's a jwt token in the response
-                let user = response.json();
-                console.log(JSON.stringify(user));
-                if (user && user.token) {
+                let token = response.json();
+
+                if (token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    localStorage.setItem('currentUser', JSON.stringify(token));
                 }
-            }).catch(this.handleError);;
+            }).catch(this.handleError);
+
 
 
     }
-    private handleError (error: Response | any) {
-        // In a real world app, you might use a remote logging infrastructure
-        let errMsg: string;
-        if (error instanceof Response) {
-            const body = error.json() || '';
-            const err = body.error || JSON.stringify(body);
-            errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-        } else {
-            errMsg = error.message ? error.message : error.toString();
-        }
-        console.error(errMsg);
-        return Observable.throw(errMsg);
+    private handleError(err: Response | any) {
+        console.log(err);
+        return Observable.throw(err || 'Server error');
     }
+
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');

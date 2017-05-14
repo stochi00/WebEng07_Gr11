@@ -403,9 +403,9 @@ app.post("/updateDevice", function (req, res) {
  *
  */
 
-app.get("/login", function (req, res) {
+app.post("/login", function (req, res) {
     "use strict";
-    console.log("login versuch"+req.body.username+"_"+req.json);
+
     try{
         if(req.body.username !== validUsername) throw new Error("Wrong username or password.(0) ___"+req.body.username+"="+validUsername);
         if(req.body.password !== validUserpassword) throw new Error("Wrong username or password. (1)");
