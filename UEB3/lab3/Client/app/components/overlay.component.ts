@@ -5,7 +5,11 @@ import {DeviceService} from "../services/device.service";
 import {Device} from "../model/device";
 import {ControlUnit} from "../model/controlUnit";
 import {ControlType} from "../model/controlType";
-
+import {Http, Headers,Response} from "@angular/http";
+import {Observable} from "rxjs/Observable";
+import {Router} from "@angular/router";
+import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/catch';
 @Component({
   moduleId: module.id,
   selector: 'my-overlay',
@@ -24,7 +28,10 @@ export class OverlayComponent implements OnInit {
   addError: boolean = false;
   createError: boolean = false;
 
-  constructor(private deviceService: DeviceService) {
+  model: any = {};
+  control_units: any ={};
+
+  constructor(private deviceService: DeviceService,private router: Router, private http: Http) {
   }
 
 
@@ -45,12 +52,44 @@ export class OverlayComponent implements OnInit {
    * Liest die Daten des neuen Gerätes aus der Form aus und leitet diese an die REST-Schnittstelle weiter
    * @param form
    */
-  onSubmit(form: NgForm): void {
+  onSubmit(event: Event,form: NgForm): void {
+    console.log('in on submit addDevice');
+    event.preventDefault();
     form.reset();
-    this.overviewComponent.closeAddDeviceWindow();
 
     //TODO Lesen Sie Daten aus der Form aus und übertragen Sie diese an Ihre REST-Schnittstelle
 
+    let body = {
+      "display_name": this.model.display_name,
+      "type_name": this.model.type_name,
+      "type": this.selected_type
+     /* "control_units": [
+        {
+          "name": this.model.controlname,
+          "type": this.controlUnitType_selected,
+          "min": this.model.min,
+          "max": this.model.max,
+          "values": this.model.values,
+          "primary": false
+        }
+      ]*/
+    }
+
+    let header = new Headers();
+    header.append('Content-Type','application/json');
+    header.append('Authorization','Bearer '+localStorage.getItem('currentUser'));
+    console.log('in on submit addDevice 2');
+
+    this.http.post('http://localhost:8081/addDevice',JSON.stringify(body),{headers: header})
+        .map((response: Response) => {
+          this.router.navigate(['/overview']);
+    }).catch(this.handleError);
+
+  }
+  private handleError(err: Response | any) {
+    console.log(err);
+    this.addError = true;
+    return Observable.throw(err || 'Server error');
   }
 
   isSelected(type: string): boolean {

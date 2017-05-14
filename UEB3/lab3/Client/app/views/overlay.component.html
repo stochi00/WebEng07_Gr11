@@ -1,13 +1,13 @@
 <div class="overlay">
   <div class="overlay-content">
     <a (click)="doClose()" class="overlay-exit"><img  src="images/close.png" alt="close overlay" width="10" height="10"/></a>
-    <form name="addForm" class="form overlay-form" method="post" #addForm="ngForm" (ngSubmit)="onSubmit(addForm)">
+    <form name="addForm" class="form overlay-form" method="post" #addForm="ngForm" (ngSubmit)="onSubmit($event,addForm)">
       <h2 id="formheadline" class="create-headline">Gerät anlegen</h2>
       <div class="form-row">
         <label class="form-label" for="displayname-input">
           Anzeigename
         </label>
-        <input type="text" name="displayname" id="displayname-input" required class="form-input" ngModel>
+        <input type="text" name="displayname" id="displayname-input"  [(ngModel)]="model.display_name" required class="form-input" ngModel>
       </div>
       <div class="form-row">
         <label class="form-label" for="type-input">
@@ -22,7 +22,7 @@
         <label class="form-label" for="typename-input">
           Typenbezeichnung
         </label>
-        <input type="text" name="typename" id="typename-input" required class="form-input" ngModel>
+        <input type="text" name="typename" id="typename-input"   [(ngModel)]="model.type_name"required class="form-input" ngModel>
       </div>
       <hr>
       <div class="form-row">
@@ -34,7 +34,7 @@
         <label class="form-label" for="elementname-input">
           Bezeichnung
         </label>
-        <input type="text" name="elementname" id="elementname-input" required class="form-input" ngModel>
+        <input type="text" name="elementname" id="elementname-input"  [(ngModel)]="model.controlname" required class="form-input" ngModel>
       </div>
       <div class="form-row">
         <label class="form-label" for="elementtype-input">
@@ -48,19 +48,19 @@
         <label class="form-label" for="minimum-input">
           Minimum
         </label>
-        <input type="number" name="minimum-value" id="minimum-input" required class="form-input" ngModel>
+        <input type="number" name="minimum-value" id="minimum-input"  [(ngModel)]="model.min" required class="form-input" ngModel>
       </div>
       <div *ngIf="isContinuousSelected()" class="form-row">
         <label class="form-label" for="maximum-input">
           Maximum
         </label>
-        <input type="number" name="maximum-value" id="maximum-input" required class="form-input" ngModel>
+        <input type="number" name="maximum-value" id="maximum-input"  [(ngModel)]="model.max" required class="form-input" ngModel>
       </div>
       <div *ngIf="isEnumSelected()" class="form-row">
         <label class="form-label" for="values-input">
           Mögliche Werte
         </label>
-        <textarea name="discrete-values" ngModel id="values-input" required class="form-input" placeholder="offen, halb geöffnet, geschlossen"></textarea>
+        <textarea name="discrete-values" ngModel id="values-input" required class="form-input"  [(ngModel)]="model.values" placeholder="offen, halb geöffnet, geschlossen"></textarea>
       </div>
       <div *ngIf="addError" class="form-row form-row-center form-error" id="add-error">Es wurden nicht alle Angaben wie benötigt vorgenommen!</div>
       <div *ngIf="createError" class="form-row form-row-center form-error" id="create-error">Aufgrund eine Serverfehlers konnte das Geräte nicht erstellt werden!</div>

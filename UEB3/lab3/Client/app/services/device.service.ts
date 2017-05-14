@@ -27,18 +27,26 @@ export class DeviceService {
         header.append('Content-Type', 'application/x-www-form-urlencoded');
         header.append('Authorization', 'Bearer ' + localStorage.getItem('currentUser'));
 
+       /// var devices: Device[] = [];
         return this.http.post('http://localhost:8081/listDevices', 'nothing=Nothing', {headers: header})
             .toPromise()
-            .then(response => response.json())
+            .then(response => {
+                 let devices = response.json();
+                for (let i = 0; i < devices.length; i++) {
+                    devices[i] = this.parserService.parseDevice(devices[i]);
+                    //console.log(devices[i]);
+                }
+                return devices;
+            })
             .catch(this.handleError);
 
 
-        /*return  Promise.all(DEVICES).then(devices => {
-         for (let i = 0; i < devices.length; i++) {
-         devices[i] = this.parserService.parseDevice(devices[i]);
-         }
-         return devices;
-         });
+        /*return  Promise.all(devices).then(devices => {
+                 for (let i = 0; i < devices.length; i++) {
+                    devices[i] = this.parserService.parseDevice(devices[i]);
+                 }
+                 return devices;
+                 });
 */
     }
 
