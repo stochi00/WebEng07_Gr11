@@ -7,6 +7,7 @@ import {DeviceParserService} from './device-parser.service';
 import 'rxjs/Rx';
 import {Observable} from "rxjs/Observable";
 import {Http, Headers,Response} from "@angular/http";
+import {RequestArgs} from "@angular/http/src/interfaces";
 
 
 @Injectable()
@@ -39,25 +40,11 @@ export class DeviceService {
                 return devices;
             })
             .catch(this.handleError);
-
-
-        /*return  Promise.all(devices).then(devices => {
-                 for (let i = 0; i < devices.length; i++) {
-                    devices[i] = this.parserService.parseDevice(devices[i]);
-                 }
-                 return devices;
-                 });
-*/
     }
 
     getDevice(id: string): Promise<Device> {
         console.log('in getDevice');
         return this.getDevices().then(devices => devices.find(device => device.id === id));
-        /*map(devices => {
-            return devices.filter(device => device.id === id)[0]
-        });*/
-        //.then(devices => devices.find(device => device.id === id));
-
     }
 
     handleError(err: Response | any) {
@@ -69,8 +56,6 @@ export class DeviceService {
         let header = new Headers();
         header.append('Content-Type','application/x-www-form-urlencoded');
         header.append('Authorization','Bearer '+localStorage.getItem('currentUser'));
-
-
 
         return this.http.post('http://localhost:8081/deleteDevice','id='+id,{headers: header})
             .map((response: Response) => {
@@ -84,14 +69,9 @@ export class DeviceService {
         header.append('Authorization','Bearer '+localStorage.getItem('currentUser'));
 
 
-
         return this.http.post('http://localhost:8081/updateDevice','id='+id+'&name='+name+'&value='+value,{headers: header})
             .map((response: Response) => {
 
             }).catch(this.handleError);
     }
-
-
-
-
 }

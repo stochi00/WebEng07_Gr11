@@ -1,4 +1,5 @@
 import {Component, OnInit} from "@angular/core";
+import {AuthenticationService} from "../services/authentication.service";
 
 @Component({
   moduleId: module.id,
@@ -10,9 +11,12 @@ export class SidebarComponent implements OnInit{
   failed_logins: number = 0;
   server_start: Date = new Date();
 
-  constructor(){}
+  constructor(private authenticationService: AuthenticationService){}
 
   ngOnInit(): void {
-    //TODO Lesen Sie über die REST-Schnittstelle den Status des Servers aus und speichern Sie diesen in obigen Variablen
+    this.authenticationService.status().then(status => {
+      this.failed_logins = status.loginerrors;
+      this.server_start = status.startdate
+    });
   }
 }

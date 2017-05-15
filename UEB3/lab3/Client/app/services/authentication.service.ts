@@ -12,12 +12,10 @@ export class AuthenticationService {
         let params: URLSearchParams = new URLSearchParams();
         params.set('username', username);
         params.set('password', password);
-        let body = params.toString();
 
+        let body = params.toString();
         let header = new Headers();
         header.append('Content-Type','application/x-www-form-urlencoded');
-
-
 
         return this.http.post('http://localhost:8081/login',body,{headers: header})
             .map((response: Response) => {
@@ -29,9 +27,6 @@ export class AuthenticationService {
                     localStorage.setItem('currentUser', token);
                 }
             }).catch(this.handleError);
-
-
-
     }
     private handleError(err: Response | any) {
         console.log(err);
@@ -43,14 +38,22 @@ export class AuthenticationService {
         header.append('Content-Type','application/x-www-form-urlencoded');
         header.append('Authorization','Bearer '+localStorage.getItem('currentUser'));
 
-
-
         return this.http.post('http://localhost:8081/logout','nothing=nothing',{headers: header})
             .map((response: Response) => {
                 localStorage.removeItem('currentUser');
             }).catch(this.handleError);
         // remove user from local storage to log user out
+    }
+
+    status() {
+        let header = new Headers();
+        header.append('Content-Type','application/x-www-form-urlencoded');
+        header.append('Authorization','Bearer '+localStorage.getItem('currentUser'));
 
 
+        return this.http.post('http://localhost:8081/status', 'nothing=Nothing', {headers: header})
+            .toPromise()
+            .then(response => response.json())
+            .catch(this.handleError);
     }
 }
