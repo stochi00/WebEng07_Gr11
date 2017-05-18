@@ -9,7 +9,7 @@ import {AuthGuard} from "./guards/auth.guard";
 
 //TODO Setzen Sie Angular Guards ein um einen unbefugten Zugriff zu verhindern
 const routes: Routes = [
-  { path: '', component: OverviewComponent, canActivate: [AuthGuard] },
+  { path: '', component: LoginComponent, canActivate: [AuthGuard] },
   {path: 'login', component: LoginComponent},
   {path: 'overview', component: OverviewComponent, canActivate: [AuthGuard] },
   {path: 'options', component: OptionsComponent, canActivate: [AuthGuard] },
