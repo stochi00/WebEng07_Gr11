@@ -130,7 +130,7 @@ export class DevicesComponent implements OnInit, AfterViewChecked {
     finishEdit(device: Device): void {
         this.showLabel(device);
         //TODO Lesen Sie den geänderten Anzeigenamen aus und speichern Sie diesen über die REST-Schnittstelle
-        this.deviceService.updateDevice(device.id,device.control_units[0].name,"1").subscribe(
+        this.deviceService.updateDevice(device).subscribe(
             data => {
 
                 this.error = false;

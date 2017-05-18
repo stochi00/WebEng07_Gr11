@@ -63,13 +63,16 @@ export class DeviceService {
             }).catch(this.handleError);
     }
 
-    updateDevice(id: string,name:string,controlunit:string,value:string) {
+    updateDevice(device: Device) {
         let header = new Headers();
         header.append('Content-Type','application/x-www-form-urlencoded');
         header.append('Authorization','Bearer '+localStorage.getItem('currentUser'));
 
 
-        return this.http.post('http://localhost:8081/updateDevice','id='+id+'&name='+name+'&controlunit='+controlunit+'&value='+value,{headers: header})
+        return this.http.post('http://localhost:8081/updateDevice','id='+device.id+
+            '&name='+device.display_name+'' +
+            '&controlunit='+device.control_units[0].name+
+            '&value='+device.control_units[0].current,{headers: header})
             .map((response: Response) => {
                 console.log(response.toString());
             }).catch(this.handleError);
