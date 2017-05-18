@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {OverviewComponent} from "./overview.component";
 import {DeviceService} from "../services/device.service";
@@ -10,6 +10,7 @@ import {Observable} from "rxjs/Observable";
 import {Router} from "@angular/router";
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch';
+import {DevicesComponent} from "./devices.component";
 @Component({
   moduleId: module.id,
   selector: 'my-overlay',
@@ -17,8 +18,10 @@ import 'rxjs/add/operator/catch';
 })
 export class OverlayComponent implements OnInit {
 
+
   @Input()
   overviewComponent: OverviewComponent = null;
+
 
   device_types: any;
   controlUnit_types: any;
@@ -31,7 +34,7 @@ export class OverlayComponent implements OnInit {
   model: any = {};
   control_units: any ={};
 
-  constructor(private deviceService: DeviceService,private router: Router, private http: Http) {
+  constructor(private deviceService: DeviceService,private router: Router, private http: Http, private devicesComponent: DevicesComponent) {
   }
 
 
@@ -46,6 +49,9 @@ export class OverlayComponent implements OnInit {
     if (this.overviewComponent != null) {
       this.overviewComponent.closeAddDeviceWindow();
     }
+    if (this.devicesComponent != null) {
+      this.devicesComponent.listDevices();
+    }
   }
 
   /**
@@ -55,15 +61,15 @@ export class OverlayComponent implements OnInit {
   onSubmit(event: Event,form: NgForm): void {
     console.log('in on submit addDevice');
     event.preventDefault();
-    form.reset();
+
 
     //TODO Lesen Sie Daten aus der Form aus und übertragen Sie diese an Ihre REST-Schnittstelle
-
+  console.log("selected_type->"+this.selected_type);
     let body = {
       "display_name": this.model.display_name,
       "type_name": this.model.type_name,
-      "type": this.selected_type
-     /* "control_units": [
+      "type": this.selected_type,
+      "control_units": [
         {
           "name": this.model.controlname,
           "type": this.controlUnitType_selected,
@@ -72,18 +78,31 @@ export class OverlayComponent implements OnInit {
           "values": this.model.values,
           "primary": false
         }
-      ]*/
+      ]
     }
 
     let header = new Headers();
     header.append('Content-Type','application/json');
     header.append('Authorization','Bearer '+localStorage.getItem('currentUser'));
-    console.log('in on submit addDevice 2');
+    console.log('in on submit addDevice 2-> '+JSON.stringify(body));
 
-    this.http.post('http://localhost:8081/addDevice',JSON.stringify(body),{headers: header})
+    this.http.post('http://localhost:8081/appendDevice',JSON.stringify(body),{headers: header})
         .map((response: Response) => {
           this.router.navigate(['/overview']);
-    }).catch(this.handleError);
+    }).catch(this.handleError).subscribe(
+        data => {
+          this.addError = false;
+          location.reload();
+        },
+        error => {
+          this.addError = true
+          console.log('error->'+error);
+        });;
+
+    form.reset();
+    this.overviewComponent.closeAddDeviceWindow();
+    this.devicesComponent.listDevices();
+
 
   }
   private handleError(err: Response | any) {

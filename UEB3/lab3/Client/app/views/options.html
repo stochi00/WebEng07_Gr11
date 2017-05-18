@@ -3,6 +3,8 @@
 </div>
 
 <my-navigation></my-navigation>
+<div *ngIf="error" class="form-row form-row-center form-error" id="login-error">Das Passwort konnte nicht geändert worden!</div>
+<div *ngIf="posReply" class="form-row form-row-center posNotify" >Das Passwort wurde erfolgreich geändert!</div>
 <div class="main-container">
   <main aria-labelledby="formheadline">
     <form class="form" method="post" #optionsForm="ngForm" (ngSubmit)="onSubmit(optionsForm)">
@@ -11,14 +13,14 @@
         <label class="form-label" for="old-password-input">
           Altes Passwort
         </label>
-        <input type="password" name="old-password" id="old-password-input" required class="form-input"
+        <input type="password" name="old-password"  [(ngModel)]="oldpass" id="old-password-input" required class="form-input"
                placeholder="Altes Passwort" ngModel>
       </div>
       <div class="form-row">
         <label class="form-label" for="new-password-input">
           Neues Passwort
         </label>
-        <input type="password" name="new-password" id="new-password-input" placeholder="Neues Passwort" required
+        <input type="password" name="new-password"  [(ngModel)]="newpass1" id="new-password-input" placeholder="Neues Passwort" required
                class="form-input" minlength="8"
                maxlength="12" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,12}" ngModel>
       </div>
@@ -26,7 +28,7 @@
         <label class="form-label" for="repeat-password-input">
           Passwort wiederholen
         </label>
-        <input type="password" name="repeat-password" id="repeat-password-input"
+        <input type="password" name="repeat-password" [(ngModel)]="newpass2" id="repeat-password-input"
                placeholder="Neues Passwort wiederholen"
                required class="form-input" minlength="8"
                maxlength="12" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,12}" ngModel>

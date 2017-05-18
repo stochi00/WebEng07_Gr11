@@ -50,6 +50,16 @@ export class ContinuousDeviceDetailsComponent implements OnInit {
     this.log_message += new Date().toLocaleString() + ": " + this.controlUnit.current + " -> " + this.new_value;
     this.controlUnit.log = this.log_message;
     this.controlUnit.current = this.new_value;
+
+    this.device.control_units[0].current = this.new_value;
+    this.deviceService.updateDevice(this.device,"nothing").subscribe(
+        data => {
+          //this.error = false;
+        },
+        error => {
+          this.log_message = "error"+error;
+          console.log('error->'+error);
+        });
   }
 
   public lineChartData: Array<any> = [

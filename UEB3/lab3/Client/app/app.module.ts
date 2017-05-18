@@ -52,7 +52,8 @@ import {OverlayComponent} from "./components/overlay.component";
     DeviceService,
     AuthenticationService,
     DeviceParserService,
-    AuthGuard
+    AuthGuard,
+    DevicesComponent
   ],
   bootstrap: [AppComponent]
 })

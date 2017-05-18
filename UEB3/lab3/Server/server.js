@@ -383,6 +383,13 @@ app.post("/updateDevice", function (req, res) {
             }
 
             //set value
+            if(targetUnit.type == "enum")
+                targetUnit.current = targetUnit.values.indexOf(req.body.value);
+            else
+                targetUnit.current = req.body.value;
+
+            console.log("targetUnit - current: "+targetUnit.current);
+
             targetUnit.current = req.body.value;
             console.log("targetDevice - name:" + targetDevice.display_name)
             targetDevice.display_name = req.body.name;
@@ -490,6 +497,7 @@ app.post("/logout", function (req, res) {
 app.post("/changePassword", function (req, res) {
     "use strict";
 
+    console.log("in changePassword ->");
     if(authenticate(req,res)){
         try{
             if(req.body.oldpwd !== validUserpassword) throw new Error("Wrong password entered.");
@@ -502,6 +510,7 @@ app.post("/changePassword", function (req, res) {
                     return console.error(err);
                 }
                 console.log("Data written successfully!");
+                validUserpassword = req.body.newpwd;
             });
         }catch (ex) {
             res.status(400).send(ex.message);

@@ -45,6 +45,16 @@ export class BooleanDeviceDetailsComponent implements OnInit {
 
         this.controlUnit.log = this.log_message;
         this.controlUnit.current = this.new_value ? 1 : 0;
+
+        this.device.control_units[0].current = this.new_value ? 1 : 0;
+        this.deviceService.updateDevice(this.device,"nothing").subscribe(
+            data => {
+                //this.error = false;
+            },
+            error => {
+                this.log_message = "error"+error;
+                console.log('error->'+error);
+            });
     }
 
     public doughnutChartData: number[] = [0, 0];

@@ -47,10 +47,7 @@ export class DeviceService {
         return this.getDevices().then(devices => devices.find(device => device.id === id));
     }
 
-    handleError(err: Response | any) {
-        console.log(err);
-        return Observable.throw(err || 'Server error');
-    }
+
 
     removeDevice(id: string) {
         let header = new Headers();
@@ -63,16 +60,21 @@ export class DeviceService {
             }).catch(this.handleError);
     }
 
-    updateDevice(device: Device) {
+    updateDevice(device: Device,values: string) {
+        console.log('updateDevice called...');
         let header = new Headers();
         header.append('Content-Type','application/x-www-form-urlencoded');
         header.append('Authorization','Bearer '+localStorage.getItem('currentUser'));
 
+        var body = 'id='+device.id+'&name='+device.display_name+'&controlunit='+device.control_units[0].name+'&value=';
 
-        return this.http.post('http://localhost:8081/updateDevice','id='+device.id+
-            '&name='+device.display_name+'' +
-            '&controlunit='+device.control_units[0].name+
-            '&value='+device.control_units[0].current,{headers: header})
+        if(values === "nothing")
+            body += device.control_units[0].current;
+        else
+            body += values;
+
+        console.log(body);
+        return this.http.post('http://localhost:8081/updateDevice',body,{headers: header})
             .map((response: Response) => {
                 console.log(response.toString());
             }).catch(this.handleError);
@@ -89,6 +91,11 @@ export class DeviceService {
             .map((response: Response) => {
                 console.log(response.toString());
             }).catch(this.handleError);
+    }
+
+    private handleError(err: Response | any) {
+        console.log(err);
+        return Observable.throw(err || 'Server error');
     }
 
 }

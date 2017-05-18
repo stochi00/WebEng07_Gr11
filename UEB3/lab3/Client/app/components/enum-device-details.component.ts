@@ -52,6 +52,16 @@ export class EnumDeviceDetailsComponent implements OnInit {
         this.controlUnit.log = this.log_message;
         this.polarChartData = _polarChartData;
         this.controlUnit.current = index;
+
+        this.device.control_units[0].current = index;
+        this.deviceService.updateDevice(this.device,this.controlUnit.values[this.controlUnit.current]).subscribe(
+            data => {
+                //this.error = false;
+            },
+            error => {
+                this.log_message = "error"+error;
+                console.log('error->'+error);
+            });
     }
 
     isSelected(val: string): boolean {
