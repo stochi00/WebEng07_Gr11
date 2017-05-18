@@ -112,7 +112,7 @@ function invalidateToken(req, res)
  * URL: /updateDevice
  * TYPE: POST
  * PARAM: id  - id of device
- *        name - name of control_unit
+ *        controlunit - name of control_unit
  *        value - current value (see "current")
  *              - boolean: 0 or 1
  *              - enum: name of value (not id!!)
@@ -149,7 +149,7 @@ app.post("/updateCurrent", function (req, res) {
 
             //find control unit
             for (var i in targetDevice.control_units){
-                if(targetDevice.control_units[i].name == req.body.name){
+                if(targetDevice.control_units[i].name == req.body.controlunit){
                     targetUnit = targetDevice.control_units[i];
                     break;
                 }
@@ -226,7 +226,7 @@ app.post("/listDevices", function (req, res) {
  *
  * Angabe: Hinzufügen eines neuen Gerätes
  *
- * URL: /addDevice
+ * URL: /appendDevice
  * TYPE: POST (application/json)
  * PARAM: device - [same like in resources/devices.json without id part]
  *
@@ -235,16 +235,22 @@ app.post("/listDevices", function (req, res) {
  *         message - reason why it failed, "Device added successfully." otherwise
  */
 
-app.post("/addDevice", function (req, res) {
+app.post("/appendDevice", function (req, res) {
     "use strict";
+
+    console.log("appendDevice");
 
     if(authenticate(req,res)){
         try{
            //create new uuid
             req.body.id = uuid();
 
+
+            console.log(".. " +  req.body) ;
             //add device
             devices.devices.push(req.body);
+
+            console.log("appendDevice - done");
 
             //TODO inform all sockets
 
@@ -312,7 +318,8 @@ app.post("/deleteDevice", function (req, res) {
  * URL: /updateDevice
  * TYPE: POST
  * PARAM: id  - id of device
- *        name - name of control_unit
+ *        name - new display_name of device
+ *        controlunit - name of controlunit in device
  *        value - current value (see "current")
  *              - boolean: 0 or 1
  *              - enum: name of value (not id!!)
@@ -326,14 +333,18 @@ app.post("/deleteDevice", function (req, res) {
 app.post("/updateDevice", function (req, res) {
     "use strict";
 
+    console.log("update called ...");
+
     if(authenticate(req,res)){
         try{
             var targetDevice;
             var targetUnit;
 
+            console.log("update called ... id:" + req.body.id);
+
             //find device
             for (var i in devices.devices){
-                if(devices.devices[i].id == req.body.id){
+                if(devices.devices[i].id === req.body.id){
                     targetDevice = devices.devices[i];
                     break;
                 }
@@ -343,7 +354,7 @@ app.post("/updateDevice", function (req, res) {
 
             //find control unit
             for (var i in targetDevice.control_units){
-                if(targetDevice.control_units[i].name == req.body.name){
+                if(targetDevice.control_units[i].name == req.body.controlunit){
                     targetUnit = targetDevice.control_units[i];
                     break;
                 }
@@ -373,11 +384,15 @@ app.post("/updateDevice", function (req, res) {
 
             //set value
             targetUnit.current = req.body.value;
-            targetDevice.name = req.body.name;
+            console.log("targetDevice - name:" + targetDevice.display_name)
+            targetDevice.display_name = req.body.name;
+
+            console.log("targetDevice - name:" + targetDevice.display_name)
 
             //TODO: inform all sockets
 
         }catch (ex){
+            console.log("ERROR: " + ex.message);
             res.status(400).send(ex.message);
             return;
         }
@@ -536,7 +551,6 @@ app.post("/status", function (req, res) {
 function readUser() {
     "use strict";
     var data = fs.readFileSync('resources/login.config');
-
     var lines = data.toString().split(/\r?\n/);
 
     validUsername = lines[0].substring("username: ".length);
