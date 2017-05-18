@@ -63,15 +63,29 @@ export class DeviceService {
             }).catch(this.handleError);
     }
 
-    updateDevice(id: string,name:string,value:string) {
+    updateDevice(id: string,name:string,controlunit:string,value:string) {
         let header = new Headers();
         header.append('Content-Type','application/x-www-form-urlencoded');
         header.append('Authorization','Bearer '+localStorage.getItem('currentUser'));
 
 
-        return this.http.post('http://localhost:8081/updateDevice','id='+id+'&name='+name+'&value='+value,{headers: header})
+        return this.http.post('http://localhost:8081/updateDevice','id='+id+'&name='+name+'&controlunit='+controlunit+'&value='+value,{headers: header})
             .map((response: Response) => {
-
+                console.log(response.toString());
             }).catch(this.handleError);
     }
+
+    addDevice(device: Device){
+        console.log("addDevice called");
+
+        let header = new Headers();
+        header.append('Content-Type','application/x-www-form-urlencoded');
+        header.append('Authorization','Bearer '+localStorage.getItem('currentUser'));
+
+        return this.http.post('http://localhost:8081/appendDevice','nothing=Nothing',{headers: header})
+            .map((response: Response) => {
+                console.log(response.toString());
+            }).catch(this.handleError);
+    }
+
 }

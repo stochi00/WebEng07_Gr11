@@ -71,6 +71,7 @@ export class DevicesComponent implements OnInit, AfterViewChecked {
                 this.edit[i] = {id: this.devices[i].id, value: false};
             }
             this.device_num = devices.length;
+            this.update = true;
         });
     }
 
