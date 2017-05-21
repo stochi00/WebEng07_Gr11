@@ -24,13 +24,13 @@ var validUsername;
 var validUserpassword;
 var devices;
 
-var startDate =  new Date();
+var startDate = new Date();
 var wrongLogins = 0;
 var tokenBlacklist = [];
 
 app.set('jwtTokenSecret', 'GROUP11_FTW');
 
-//TODO Implementieren Sie hier Ihre REST-Schnittstelle
+// Implementieren Sie hier Ihre REST-Schnittstelle
 /* Ermöglichen Sie wie in der Angabe beschrieben folgende Funktionen:
  *  Abrufen aller Geräte als Liste
  *  Hinzufügen eines neuen Gerätes
@@ -55,16 +55,15 @@ app.set('jwtTokenSecret', 'GROUP11_FTW');
  *          false - JWT header not correct (HTTP Error sent) *
  */
 
-function authenticate(req, res)
-{
-    if (!req.headers.authorization){
+function authenticate(req, res) {
+    if (!req.headers.authorization) {
         res.status(401).send('You are not authorized');
         return false;
     }
 
     var token = req.headers.authorization.split(' ')[1];
 
-    if(tokenBlacklist.indexOf("" + token) > -1) {
+    if (tokenBlacklist.indexOf("" + token) > -1) {
         res.status(401).send('Token Expired');
         return false;
     }
@@ -90,16 +89,17 @@ function authenticate(req, res)
  *          false - JWT header not found (HTTP Error sent) *
  */
 
-function invalidateToken(req, res)
-{
-    if(!req.headers.authorization){
-        res.status(401).send('You are not authorized'+req.headers.authorization);
+function invalidateToken(req, res) {
+    if (!req.headers.authorization) {
+        res.status(401).send('You are not authorized: ' + req.headers.authorization);
         return false;
     }
 
     var token = req.headers.authorization.split(' ')[1];
     console.log(token);
-    tokenBlacklist.push(""+token);
+    tokenBlacklist.push("" + token);
+    // TODO: token/client aus websocket entfernen!
+
     return true;
 }
 
@@ -131,25 +131,25 @@ app.post("/updateCurrent", function (req, res) {
      * Diese Funktion verändert gleichzeitig auch den aktuellen Wert des Gerätes, Sie müssen diese daher nur mit den korrekten Werten aufrufen.
      */
 
-    if(authenticate(req,res)){
-        try{
+    if (authenticate(req, res)) {
+        try {
             var targetDevice;
             var targetUnit;
             var targetValue;
 
             //find device
-            for (var i in devices.devices){
-                if(devices.devices[i].id == req.body.id){
+            for (var i in devices.devices) {
+                if (devices.devices[i].id == req.body.id) {
                     targetDevice = devices.devices[i];
                     break;
                 }
             }
-            if(targetDevice === undefined)
+            if (targetDevice === undefined)
                 throw new Error("Device not found.");
 
             //find control unit
-            for (var i in targetDevice.control_units){
-                if(targetDevice.control_units[i].name == req.body.controlunit){
+            for (var i in targetDevice.control_units) {
+                if (targetDevice.control_units[i].name == req.body.controlunit) {
                     targetUnit = targetDevice.control_units[i];
                     break;
                 }
@@ -158,20 +158,20 @@ app.post("/updateCurrent", function (req, res) {
 
             //find possible values and set the new value.
             targetValue = req.body.value;
-            switch(targetUnit.type){
+            switch (targetUnit.type) {
                 case "continuous":
-                    if(req.body.value<targetUnit.min || req.body.value > targetUnit.max)
+                    if (req.body.value < targetUnit.min || req.body.value > targetUnit.max)
                         throw new Error("Continuous value out of range.");
                     break;
 
                 case "boolean":
-                    if(targetValue !==0 && targetValue !== 1)
+                    if (targetValue !== 0 && targetValue !== 1)
                         throw new Error("Boolean value out of range.");
                     break;
 
                 case "enum":
                     targetValue = targetUnit.values.indexOf(targetValue);
-                    if(targetValue <= -1)
+                    if (targetValue <= -1)
                         throw new Error("Enum value out of range.");
                     break;
 
@@ -181,10 +181,12 @@ app.post("/updateCurrent", function (req, res) {
 
             //set value
             simulation.updatedDeviceValue(targetDevice, targetUnit, Number(targetValue));
+            // TODO: beinhaltet targetDevice dann eh eine referenz auf device[x]? also wird devices eh auch mitaktualisiert?
 
-            //TODO: inform all sockets
+            // inform all sockets
+            refreshConnected();
 
-        }catch (ex){
+        } catch (ex) {
             res.status(400).send(ex.message);
             return;
         }
@@ -197,25 +199,25 @@ app.post("/updateCurrent", function (req, res) {
  * Selbst definiert API Methoden *
  *********************************/
 
- /* *************************************************
-  * API - List Devices
-  *
-  * Angabe: Abrufen aller Geräte als Liste
-  *
-  * URL: /listDevices
-  * TYPE: POST
-  * PARAM: <none>
-  *
-  * RETURN TYPE: JSON
-  * RETURN: status - "OK" or "ERROR"
-  *         message - reason why it failed, "List successful sent." otherwise
-  *         devices - Array of devices (like in the source file [resources/devices.json])
-  */
+/* *************************************************
+ * API - List Devices
+ *
+ * Angabe: Abrufen aller Geräte als Liste
+ *
+ * URL: /listDevices
+ * TYPE: POST
+ * PARAM: <none>
+ *
+ * RETURN TYPE: JSON
+ * RETURN: status - "OK" or "ERROR"
+ *         message - reason why it failed, "List successful sent." otherwise
+ *         devices - Array of devices (like in the source file [resources/devices.json])
+ */
 
 app.post("/listDevices", function (req, res) {
     "use strict";
     console.log("in list devices");
-    if(authenticate(req,res)){
+    if (authenticate(req, res)) {
         res.json(devices.devices);
         res.end();
     }
@@ -240,22 +242,22 @@ app.post("/appendDevice", function (req, res) {
 
     console.log("appendDevice");
 
-    if(authenticate(req,res)){
-        try{
-           //create new uuid
+    if (authenticate(req, res)) {
+        try {
+            //create new uuid
             req.body.id = uuid();
 
 
-            console.log(".. " +  req.body) ;
+            console.log(".. " + req.body);
             //add device
             devices.devices.push(req.body);
 
             console.log("appendDevice - done");
 
-            //TODO inform all sockets
+            // inform all sockets
+            refreshConnected();
 
-
-        }catch (ex){
+        } catch (ex) {
             res.status(400).send(ex.message);
             return;
         }
@@ -283,25 +285,26 @@ app.post("/deleteDevice", function (req, res) {
 
     console.log("Delete devices");
 
-    if(authenticate(req,res)){
-        try{
+    if (authenticate(req, res)) {
+        try {
             var targetIndex;
 
             //find device
-            for (var i in devices.devices){
-                if(devices.devices[i].id == req.body.id){
+            for (var i in devices.devices) {
+                if (devices.devices[i].id == req.body.id) {
                     targetIndex = i;
                     break;
                 }
             }
-            if(targetIndex === undefined)
+            if (targetIndex === undefined)
                 throw new Error("Device not found.");
 
-            devices.devices.splice(targetIndex,1);
+            devices.devices.splice(targetIndex, 1);
 
-            //TODO: inform all sockets
+            // inform all sockets
+            refreshConnected();
 
-        }catch (ex){
+        } catch (ex) {
             res.status(400).send(ex.message);
         }
 
@@ -335,26 +338,26 @@ app.post("/updateDevice", function (req, res) {
 
     console.log("update called ...");
 
-    if(authenticate(req,res)){
-        try{
+    if (authenticate(req, res)) {
+        try {
             var targetDevice;
             var targetUnit;
 
             console.log("update called ... id:" + req.body.id);
 
             //find device
-            for (var i in devices.devices){
-                if(devices.devices[i].id === req.body.id){
+            for (var i in devices.devices) {
+                if (devices.devices[i].id === req.body.id) {
                     targetDevice = devices.devices[i];
                     break;
                 }
             }
-            if(targetDevice === undefined)
+            if (targetDevice === undefined)
                 throw new Error("Device not found.");
 
             //find control unit
-            for (var i in targetDevice.control_units){
-                if(targetDevice.control_units[i].name == req.body.controlunit){
+            for (var i in targetDevice.control_units) {
+                if (targetDevice.control_units[i].name == req.body.controlunit) {
                     targetUnit = targetDevice.control_units[i];
                     break;
                 }
@@ -362,19 +365,19 @@ app.post("/updateDevice", function (req, res) {
             }
 
             //find possible values and set the new value.
-            switch(targetUnit.type){
+            switch (targetUnit.type) {
                 case "continuous":
-                    if(req.body.value<targetUnit.min || req.body.value > targetUnit.max)
+                    if (req.body.value < targetUnit.min || req.body.value > targetUnit.max)
                         throw new Error("Continuous value out of range.");
                     break;
 
                 case "boolean":
-                    if(req.body.value!=0 && req.body.value != 1)
+                    if (req.body.value != 0 && req.body.value != 1)
                         throw new Error("Boolean value out of range.");
                     break;
 
                 case "enum":
-                    if(targetUnit.values.indexOf(req.body.value) <= -1)
+                    if (targetUnit.values.indexOf(req.body.value) <= -1)
                         throw new Error("Enum value out of range.");
                     break;
 
@@ -383,22 +386,21 @@ app.post("/updateDevice", function (req, res) {
             }
 
             //set value
-            if(targetUnit.type == "enum")
+            if (targetUnit.type == "enum")
                 targetUnit.current = targetUnit.values.indexOf(req.body.value);
             else
                 targetUnit.current = req.body.value;
 
-            console.log("targetUnit - current: "+targetUnit.current);
-
+            //console.log("targetUnit - current: " + targetUnit.current);
             targetUnit.current = req.body.value;
-            console.log("targetDevice - name:" + targetDevice.display_name)
+            //console.log("targetDevice - name:" + targetDevice.display_name);
             targetDevice.display_name = req.body.name;
+            //console.log("targetDevice - name:" + targetDevice.display_name)
 
-            console.log("targetDevice - name:" + targetDevice.display_name)
+            // inform all sockets
+            refreshConnected();
 
-            //TODO: inform all sockets
-
-        }catch (ex){
+        } catch (ex) {
             console.log("ERROR: " + ex.message);
             res.status(400).send(ex.message);
             return;
@@ -411,7 +413,7 @@ app.post("/updateDevice", function (req, res) {
 /* *************************************************
  * API - login
  *
- * Angabe: Log-in und Log-out des Benutzers
+ * Angabe: Log-in des Benutzers
  *
  * URL: /login
  * TYPE: POST
@@ -433,9 +435,9 @@ app.post("/login", function (req, res) {
 
     console.log("login attempt: username: " + req.body.username + " / password: " + req.body.password);
 
-    try{
-        if(req.body.username !== validUsername) throw new Error("Wrong username or password.(0) ___"+req.body.username+"="+validUsername);
-        if(req.body.password !== validUserpassword) throw new Error("Wrong username or password. (1)");
+    try {
+        if (req.body.username !== validUsername) throw new Error("Wrong username or password.(0) ___" + req.body.username + "=" + validUsername);
+        if (req.body.password !== validUserpassword) throw new Error("Wrong username or password. (1)");
 
         //init JWT
         //var expires = moment().add('days', 7).valueOf();
@@ -443,23 +445,22 @@ app.post("/login", function (req, res) {
             username: req.body.username
         }, app.get('jwtTokenSecret'));
 
-        if(tokenBlacklist.indexOf(token) > -1)
-            tokenBlacklist.splice(tokenBlacklist.indexOf(token),1);
+        if (tokenBlacklist.indexOf(token) > -1)
+            tokenBlacklist.splice(tokenBlacklist.indexOf(token), 1);
 
         res.status(200).json(token);
-
-    }catch (ex){
+    } catch (ex) {
         res.status(400).send(ex.message);
-        wrongLogins ++;
+        wrongLogins++;
     }
 });
 
 /* *************************************************
  * API - logout
  *
- * Angabe: Log-in und Log-out des Benutzers
+ * Angabe: Log-out des Benutzers
  *
- * URL: /login
+ * URL: /logout
  * TYPE: POST
  *
  * RETURN TYPE: JSON
@@ -471,7 +472,7 @@ app.post("/login", function (req, res) {
 app.post("/logout", function (req, res) {
     "use strict";
 
-    if(invalidateToken(req,res)){
+    if (invalidateToken(req, res)) {
         res.status(200).send();
     }
 });
@@ -498,21 +499,21 @@ app.post("/changePassword", function (req, res) {
     "use strict";
 
     console.log("in changePassword ->");
-    if(authenticate(req,res)){
-        try{
-            if(req.body.oldpwd !== validUserpassword) throw new Error("Wrong password entered.");
-            if(req.body.newpwd !== req.body.newpwd_rep) throw new Error("New passwords are note equal.");
+    if (authenticate(req, res)) {
+        try {
+            if (req.body.oldpwd !== validUserpassword) throw new Error("Wrong password entered.");
+            if (req.body.newpwd !== req.body.newpwd_rep) throw new Error("New passwords are note equal.");
 
             var login_file = "username: admin@mail.com\npassword: " + req.body.newpwd;
 
-            fs.writeFile('resources/login.config', login_file,  function(err) {
+            fs.writeFile('resources/login.config', login_file, function (err) {
                 if (err) {
                     return console.error(err);
                 }
                 console.log("Data written successfully!");
                 validUserpassword = req.body.newpwd;
             });
-        }catch (ex) {
+        } catch (ex) {
             res.status(400).send(ex.message);
             return;
         }
@@ -540,7 +541,7 @@ app.post("/status", function (req, res) {
 
     console.log("status called ...");
 
-    if(authenticate(req,res)){
+    if (authenticate(req, res)) {
         res.json({
             startdate: startDate,
             loginerrors: wrongLogins
@@ -589,7 +590,7 @@ function readDevices() {
 
 function refreshConnected() {
     "use strict";
-    //TODO Übermitteln Sie jedem verbundenen Client die aktuellen Gerätedaten über das Websocket
+    // Übermitteln Sie jedem verbundenen Client die aktuellen Gerätedaten über das Websocket
     /*
      * Jedem Client mit aktiver Verbindung zum Websocket sollen die aktuellen Daten der Geräte übermittelt werden.
      * Dabei soll jeder Client die aktuellen Werte aller Steuerungselemente von allen Geräte erhalten.
@@ -598,7 +599,12 @@ function refreshConnected() {
      * Bitte beachten Sie, dass diese Funktion von der Simulation genutzt wird um periodisch die simulierten Daten an alle Clients zu übertragen.
      */
 
-    //console.log('refreshConnected called');
+    console.log('refreshConnected called');
+
+    expressWs.clients.forEach(function (client) {
+        // TODO: client (mit token) checken? aber wie?
+        client.send(devices);
+    });
 }
 
 
@@ -612,3 +618,10 @@ var server = app.listen(8081, function () {
     console.log("Big Smart Home Server listening at http://%s:%s", host, port);
 });
 
+app.ws('/devices', function (ws, req) {
+});
+/* TODO:
+ ABSOLUT keine ahnung was hier gemacht werden soll... wir rufen refreshConnected() ja eh manuell auf
+demzufolge benötigen wir hier keine event handler. aber wenn das leer is, bleibt der socket dann nach der connection eh bestehen?
+oder kann man das überhaupt weglassen? woher weiß der client dann aber den path zu dem er den socket erstellen soll?
+ */
