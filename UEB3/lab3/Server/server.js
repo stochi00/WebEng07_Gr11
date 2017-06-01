@@ -601,10 +601,10 @@ function refreshConnected() {
 
     console.log('refreshConnected called');
 
-    expressWs.clients.forEach(function (client) {
+    //expressWs.clients.forEach(function (client) {
         // TODO: client (mit token) checken? aber wie?
-        client.send(devices);
-    });
+    //    client.send(devices);
+    //});
 }
 
 

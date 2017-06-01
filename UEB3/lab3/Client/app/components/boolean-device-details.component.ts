@@ -47,6 +47,7 @@ export class BooleanDeviceDetailsComponent implements OnInit {
         this.controlUnit.current = this.new_value ? 1 : 0;
 
         this.device.control_units[0].current = this.new_value ? 1 : 0;
+
         this.deviceService.updateDevice(this.device,"nothing").subscribe(
             data => {
                 //this.error = false;
