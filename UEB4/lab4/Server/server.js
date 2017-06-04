@@ -81,8 +81,7 @@ app.post("/createDevice", function (req, res) {
                 //  - verwenden Sie getTwitterPublicationString(groupNum, uuid, date) um den Publication String zu erstellen
 
                 var message = getTwitterPublicationString(11, id, new Date());
-                var Twitter = require('twitter');
-                var client = new Twitter({
+                var client = new twitter({
                     consumer_key: 'GZ6tiy1XyB9W0P4xEJudQ',
                     consumer_secret: 'gaJDlW0vf7en46JwHAOkZsTHvtAiZ3QUd2mD1x26J9w',
                     access_token_key: '1366513208-MutXEbBMAVOwrbFmZtj1r4Ih2vcoHGHE2207002',
@@ -597,10 +596,18 @@ var https_options = {
     passphrase: 'grp11rox'
 };
 
-https.createServer(https_options, (req, res) => {
+var ssl_server = https.createServer(https_options, app).listen(4201, function() {
+    console.log("Big Smart Home HTTPS-Server listening at http://%s:%s", ssl_server.address().address, ssl_server.address().port);
+});
+
+
+/*
+var ssl_server = https.createServer(https_options, app)=> {
     res.writeHead(200);
-res.end('hello world\n');
+    res.end('hello world\n');
 }).listen(4201);
+*/
+
 
 /**
  * Programmeinstieg
