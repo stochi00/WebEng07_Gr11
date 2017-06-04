@@ -74,10 +74,33 @@ app.post("/createDevice", function (req, res) {
                 res.json({status: 200, message: devices});
                 sendCreate(JSON.stringify(device));
                 //TODO erstellen Sie einen Publication String für Twitter und senden Sie diesen über die Twitter Bibliothek ab
+
                 //Tipps:
                 //  - die benötigte Bibliothek ist bereits eingebunden
                 //  - siehe https://www.npmjs.com/package/twitter für eine Beschreibung der Bibliothek
                 //  - verwenden Sie getTwitterPublicationString(groupNum, uuid, date) um den Publication String zu erstellen
+
+                var message = getTwitterPublicationString(11, id, new Date());
+                var Twitter = require('twitter');
+                var client = new Twitter({
+                    consumer_key: 'GZ6tiy1XyB9W0P4xEJudQ',
+                    consumer_secret: 'gaJDlW0vf7en46JwHAOkZsTHvtAiZ3QUd2mD1x26J9w',
+                    access_token_key: '1366513208-MutXEbBMAVOwrbFmZtj1r4Ih2vcoHGHE2207002',
+                    access_token_secret: 'RMPWOePlus3xtURWRVnv1TgrjTyK7Zk33evp4KKyA'
+                });
+
+
+                    client.post('statuses/update', {status: message},  function(error, tweet, response) {
+                        try{
+                            if(error)
+                                throw error;
+                            console.log(message);
+                        }catch(e)
+                        {
+                            console.log("An Twitter error occured: " + e.toString());
+                        }
+                    });
+
             }
         });
     } else {
