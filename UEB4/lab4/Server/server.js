@@ -591,8 +591,8 @@ function getTwitterPublicationString(groupNum, uuid, date) {
 //  - zu https mit node.js siehe https://nodejs.org/api/https.html
 
 var https_options = {
-    key: fs.readFileSync('./resources/key.pem'),
-    cert: fs.readFileSync('./resources/cert.pem'),
+    key: fs.readFileSync('./cert/key.pem'),
+    cert: fs.readFileSync('./cert/cert.pem'),
     passphrase: 'grp11rox'
 };
 
