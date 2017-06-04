@@ -102,6 +102,15 @@ export class OverlayComponent implements OnInit {
         break;
       default:
         //TODO Lesen Sie die SPARQL - Informationen aus dem SessionStorage und speichern Sie die entsprechenden Informationen zum Gerät
+
+        var sparql_devices: Array<any> = JSON.parse(sessionStorage.getItem("sparql_data"));
+
+        var sparql_device = sparql_devices.find(element => element['label']['value'] == this.selected_type); //filter(element => element.label == this.selected_type);
+
+        device.image = sparql_device['url']['value'];
+        device.image_alt = sparql_device['label']['value'];
+        device.description = sparql_device['label']['value'];
+
         break;
     }
 
@@ -163,6 +172,44 @@ export class OverlayComponent implements OnInit {
 
   getSPARQLTypes(): void {
     //TODO Lesen Sie mittels SPARQL die gewünschten Daten (wie in der Angabe beschrieben) aus und speichern Sie diese im SessionStorage
+    var request = new XMLHttpRequest();
+    var temp_device_types: any = this.device_types; //um darauf referenzieren zu können!
+
+    request.onreadystatechange = function() {
+      if (request.readyState == 4 && request.status == 200)
+      {
+        var sparql_data:Array<any>;
+        sparql_data = JSON.parse(this.responseText)['results']['bindings'];
+
+        //store in session
+        sessionStorage.setItem("sparql_data", JSON.stringify(sparql_data) );
+
+        //add for combobox
+        sparql_data.map(element => {
+          temp_device_types.push(element.label.value);
+        });
+      }
+    };
+
+    var query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
+        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>" +
+        "PREFIX dct: <http://purl.org/dc/terms/>" +
+        "PREFIX dbo: <http://dbpedia.org/ontology/>" +
+        "PREFIX floaf: <http://xmlns.com/floaf/0.1/>" +
+
+        "SELECT DISTINCT ?label, CONCAT(?image,\"?width=300\")as ?url WHERE {" +
+        "   ?thing    dct:subject     <http://dbpedia.org/resource/Category:Home_automation> ;" +
+        "             rdf:type        owl:Thing ;" +
+        "             rdfs:label      ?label ; " +
+        "             foaf:depiction  ?image . " +
+        "   ?company  dbo:product     ?thing . " +
+        "FILTER(LANGMATCHES(LANG(?label), \"de\")) . " +
+        "} ";
+
+    var data = "?query="+ encodeURIComponent(query) +"&format=json";
+
+    request.open("GET", "http://dbpedia.org/sparql"+data, true);
+    request.send(null);
   }
 
 
