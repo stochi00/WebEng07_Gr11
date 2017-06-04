@@ -568,13 +568,23 @@ function getTwitterPublicationString(groupNum, uuid, date) {
 //  - Der Websocket soll auch weiterhin über http abgewickelt werden
 //  - zu https mit node.js siehe https://nodejs.org/api/https.html
 
+var https_options = {
+    key: fs.readFileSync('./resources/key.pem'),
+    cert: fs.readFileSync('./resources/cert.pem'),
+    passphrase: 'grp11rox'
+};
+
+https.createServer(https_options, (req, res) => {
+    res.writeHead(200);
+res.end('hello world\n');
+}).listen(4201);
+
 /**
  * Programmeinstieg
  * Erzeugt einen http Server auf Port 8081 und stellt die REST-Schnittstelle zur Verfügung
  * @type {http.Server}
  */
 var server = app.listen(8081, function () {
-
     "use strict";
     readUser();
     readDevices();
@@ -583,6 +593,5 @@ var server = app.listen(8081, function () {
     var port = server.address().port;
 
     console.log("Big Smart Home Server listening at http://%s:%s", host, port);
-
 });
 
