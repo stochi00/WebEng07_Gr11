@@ -24,10 +24,17 @@ export class DeviceService {
 
   //TODO Passen Sie die URLs zu Ihrer REST-Schnittstelle, entsprechend der von Ihnen vorgenommenen Änderungen am Server, an
 
+  /*
   private listDevicesURL = 'http://localhost:8081/listDevices';
   private updateDeviceURL = 'http://localhost:8081/updateDevice';
   private deleteDeviceURL = 'http://localhost:8081/deleteDevice';
   private createDeviceURL = 'http://localhost:8081/createDevice';
+  */
+
+  private listDevicesURL = 'https://localhost:4201/listDevices';
+  private updateDeviceURL = 'https://localhost:4201/updateDevice';
+  private deleteDeviceURL = 'https://localhost:4201/deleteDevice';
+  private createDeviceURL = 'https://localhost:4201/createDevice';
 
   private connection: WebSocket = null;
 
@@ -271,4 +278,6 @@ export class DeviceService {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
   }
+
+
 }
